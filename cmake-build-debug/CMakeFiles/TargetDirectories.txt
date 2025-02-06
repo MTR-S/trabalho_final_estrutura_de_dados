@@ -1,0 +1,3 @@
+C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/cmake-build-debug/CMakeFiles/trabalho_final_estrutura_de_dados.dir
+C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/cmake-build-debug/CMakeFiles/rebuild_cache.dir
