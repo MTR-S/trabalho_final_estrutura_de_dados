@@ -152,6 +152,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.s
 .PHONY : main.c.s
 
+src/pessoa.obj: src/pessoa.c.obj
+.PHONY : src/pessoa.obj
+
+# target to build an object file
+src/pessoa.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.obj
+.PHONY : src/pessoa.c.obj
+
+src/pessoa.i: src/pessoa.c.i
+.PHONY : src/pessoa.i
+
+# target to preprocess a source file
+src/pessoa.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.i
+.PHONY : src/pessoa.c.i
+
+src/pessoa.s: src/pessoa.c.s
+.PHONY : src/pessoa.s
+
+# target to generate assembly for a file
+src/pessoa.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.s
+.PHONY : src/pessoa.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -164,6 +188,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/pessoa.obj
+	@echo ... src/pessoa.i
+	@echo ... src/pessoa.s
 .PHONY : help
 
 
