@@ -1,4 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2023.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados -B C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados\cmake-build-debug
--- Configuring done (0.2s)
--- Generating done (0.2s)
--- Build files have been written to: C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/cmake-build-debug
+/app/extra/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S /home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados -B /home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/cmake-build-debug
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/cmake-build-debug
