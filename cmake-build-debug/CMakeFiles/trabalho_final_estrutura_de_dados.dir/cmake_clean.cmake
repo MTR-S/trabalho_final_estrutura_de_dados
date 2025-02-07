@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.o"
   "CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.o.d"
+  "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/comando.c.o"
+  "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/comando.c.o.d"
   "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.o"
   "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.o.d"
   "trabalho_final_estrutura_de_dados"

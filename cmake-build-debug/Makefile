@@ -153,6 +153,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trabalho_final_estrutura_de_dados.dir/build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.s
 .PHONY : main.c.s
 
+src/comando.o: src/comando.c.o
+.PHONY : src/comando.o
+
+# target to build an object file
+src/comando.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trabalho_final_estrutura_de_dados.dir/build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/comando.c.o
+.PHONY : src/comando.c.o
+
+src/comando.i: src/comando.c.i
+.PHONY : src/comando.i
+
+# target to preprocess a source file
+src/comando.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trabalho_final_estrutura_de_dados.dir/build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/comando.c.i
+.PHONY : src/comando.c.i
+
+src/comando.s: src/comando.c.s
+.PHONY : src/comando.s
+
+# target to generate assembly for a file
+src/comando.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trabalho_final_estrutura_de_dados.dir/build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/comando.c.s
+.PHONY : src/comando.c.s
+
 src/pessoa.o: src/pessoa.c.o
 .PHONY : src/pessoa.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/comando.o"
+	@echo "... src/comando.i"
+	@echo "... src/comando.s"
 	@echo "... src/pessoa.o"
 	@echo "... src/pessoa.i"
 	@echo "... src/pessoa.s"

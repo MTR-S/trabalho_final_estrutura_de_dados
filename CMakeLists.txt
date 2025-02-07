@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(trabalho_final_estrutura_de_dados main.c
         src/pessoa.c
-        include/pessoa.h)
+        include/pessoa.h
+        src/comando.c
+        include/comando.h)

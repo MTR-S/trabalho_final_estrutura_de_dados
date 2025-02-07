@@ -1,1 +1,1 @@
-/usr/bin/cc -g CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.o CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.o -o trabalho_final_estrutura_de_dados
+/usr/bin/cc -g CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.o CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.o CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/comando.c.o -o trabalho_final_estrutura_de_dados
