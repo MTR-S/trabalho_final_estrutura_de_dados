@@ -1,5 +1,5 @@
-CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.obj: \
- C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados\main.c \
+CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.obj: \
+ C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados\src\pessoa.c \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
@@ -21,10 +21,11 @@ CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/malloc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/errno.h \
- C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados\include/pessoa.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/time.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/sys/timeb.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/_timeval.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/pthread_time.h \
- C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados\include/arquivo.h
+ C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/string.h \
+ C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/sec_api/string_s.h \
+ C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/pessoa.h

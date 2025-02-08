@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/main.c" "CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.obj" "gcc" "CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.obj.d"
+  "C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/arquivo.c" "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/arquivo.c.obj" "gcc" "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/arquivo.c.obj.d"
   "C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/pessoa.c" "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.obj" "gcc" "CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.obj.d"
   )
 

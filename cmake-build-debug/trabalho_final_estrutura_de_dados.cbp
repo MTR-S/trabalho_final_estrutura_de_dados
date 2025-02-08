@@ -76,10 +76,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/arquivo.h">
+			<Option target="trabalho_final_estrutura_de_dados"/>
+		</Unit>
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/pessoa.h">
 			<Option target="trabalho_final_estrutura_de_dados"/>
 		</Unit>
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/main.c">
+			<Option target="trabalho_final_estrutura_de_dados"/>
+		</Unit>
+		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/arquivo.c">
 			<Option target="trabalho_final_estrutura_de_dados"/>
 		</Unit>
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/pessoa.c">

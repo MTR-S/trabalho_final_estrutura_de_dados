@@ -152,6 +152,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/main.c.s
 .PHONY : main.c.s
 
+src/arquivo.obj: src/arquivo.c.obj
+.PHONY : src/arquivo.obj
+
+# target to build an object file
+src/arquivo.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/arquivo.c.obj
+.PHONY : src/arquivo.c.obj
+
+src/arquivo.i: src/arquivo.c.i
+.PHONY : src/arquivo.i
+
+# target to preprocess a source file
+src/arquivo.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/arquivo.c.i
+.PHONY : src/arquivo.c.i
+
+src/arquivo.s: src/arquivo.c.s
+.PHONY : src/arquivo.s
+
+# target to generate assembly for a file
+src/arquivo.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/arquivo.c.s
+.PHONY : src/arquivo.c.s
+
 src/pessoa.obj: src/pessoa.c.obj
 .PHONY : src/pessoa.obj
 
@@ -188,6 +212,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/arquivo.obj
+	@echo ... src/arquivo.i
+	@echo ... src/arquivo.s
 	@echo ... src/pessoa.obj
 	@echo ... src/pessoa.i
 	@echo ... src/pessoa.s
