@@ -1,4 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2023.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados -B C:\Users\Casa\IFCE-EngenhariaComputacao-S3\trabalho_final_estrutura_de_dados\cmake-build-debug
--- Configuring done (0.1s)
--- Generating done (0.1s)
--- Build files have been written to: C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/cmake-build-debug

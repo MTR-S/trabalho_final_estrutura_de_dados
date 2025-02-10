@@ -8,7 +8,5 @@ add_executable(trabalho_final_estrutura_de_dados main.c
         include/pessoa.h
         src/arquivo.c
         include/arquivo.h
-        src/listas.c
-        include/listas.h
         src/menu.c
         include/menu.h)

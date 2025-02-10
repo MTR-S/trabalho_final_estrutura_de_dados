@@ -3,7 +3,6 @@
 
 #include "include/pessoa.h"
 #include "include/arquivo.h"
-#include "include/listas.h"
 
 int main() {
     struct tm dataDeNascimento;
