@@ -9,4 +9,6 @@ add_executable(trabalho_final_estrutura_de_dados main.c
         src/arquivo.c
         include/arquivo.h
         src/menu.c
-        include/menu.h)
+        include/menu.h
+        include/comando.h
+        src/comando.c)
