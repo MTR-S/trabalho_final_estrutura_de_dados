@@ -176,6 +176,54 @@ src/arquivo.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/arquivo.c.s
 .PHONY : src/arquivo.c.s
 
+src/listas.obj: src/listas.c.obj
+.PHONY : src/listas.obj
+
+# target to build an object file
+src/listas.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/listas.c.obj
+.PHONY : src/listas.c.obj
+
+src/listas.i: src/listas.c.i
+.PHONY : src/listas.i
+
+# target to preprocess a source file
+src/listas.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/listas.c.i
+.PHONY : src/listas.c.i
+
+src/listas.s: src/listas.c.s
+.PHONY : src/listas.s
+
+# target to generate assembly for a file
+src/listas.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/listas.c.s
+.PHONY : src/listas.c.s
+
+src/menu.obj: src/menu.c.obj
+.PHONY : src/menu.obj
+
+# target to build an object file
+src/menu.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/menu.c.obj
+.PHONY : src/menu.c.obj
+
+src/menu.i: src/menu.c.i
+.PHONY : src/menu.i
+
+# target to preprocess a source file
+src/menu.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/menu.c.i
+.PHONY : src/menu.c.i
+
+src/menu.s: src/menu.c.s
+.PHONY : src/menu.s
+
+# target to generate assembly for a file
+src/menu.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\trabalho_final_estrutura_de_dados.dir\build.make CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/menu.c.s
+.PHONY : src/menu.c.s
+
 src/pessoa.obj: src/pessoa.c.obj
 .PHONY : src/pessoa.obj
 
@@ -215,6 +263,12 @@ help:
 	@echo ... src/arquivo.obj
 	@echo ... src/arquivo.i
 	@echo ... src/arquivo.s
+	@echo ... src/listas.obj
+	@echo ... src/listas.i
+	@echo ... src/listas.s
+	@echo ... src/menu.obj
+	@echo ... src/menu.i
+	@echo ... src/menu.s
 	@echo ... src/pessoa.obj
 	@echo ... src/pessoa.i
 	@echo ... src/pessoa.s

@@ -79,6 +79,12 @@
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/arquivo.h">
 			<Option target="trabalho_final_estrutura_de_dados"/>
 		</Unit>
+		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/listas.h">
+			<Option target="trabalho_final_estrutura_de_dados"/>
+		</Unit>
+		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/menu.h">
+			<Option target="trabalho_final_estrutura_de_dados"/>
+		</Unit>
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/pessoa.h">
 			<Option target="trabalho_final_estrutura_de_dados"/>
 		</Unit>
@@ -86,6 +92,12 @@
 			<Option target="trabalho_final_estrutura_de_dados"/>
 		</Unit>
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/arquivo.c">
+			<Option target="trabalho_final_estrutura_de_dados"/>
+		</Unit>
+		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/listas.c">
+			<Option target="trabalho_final_estrutura_de_dados"/>
+		</Unit>
+		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/menu.c">
 			<Option target="trabalho_final_estrutura_de_dados"/>
 		</Unit>
 		<Unit filename="C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/src/pessoa.c">

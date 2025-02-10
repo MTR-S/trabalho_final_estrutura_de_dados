@@ -28,4 +28,6 @@ CMakeFiles/trabalho_final_estrutura_de_dados.dir/src/pessoa.c.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/pthread_time.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/string.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/sec_api/string_s.h \
+ C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/pessoa.h \
+ C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/menu.h \
  C:/Users/Casa/IFCE-EngenhariaComputacao-S3/trabalho_final_estrutura_de_dados/include/pessoa.h
