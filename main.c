@@ -3,6 +3,7 @@
 
 #include "include/pessoa.h"
 #include "include/arquivo.h"
+#include "include/listas.h"
 
 int main() {
     struct tm dataDeNascimento;
@@ -13,14 +14,15 @@ int main() {
     //inserindo no arquivo
     ListaDePessoas * listaDeNovasPessoas = criaListaDePessoas();
 
-    Pessoa * novaPessoa = criaPessoa(1, "matheus", 1, dataDeNascimento, "rua dr ratisbona");
-    inserePessoaNaListaDeNovos(&listaDeNovasPessoas, novaPessoa);
+    Pessoa * novaPessoa = criaPessoa(1, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa);
     Pessoa * novaPessoa2 = criaPessoa(2, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
-    inserePessoaNaListaDeNovos(&listaDeNovasPessoas, novaPessoa2);
-    Pessoa * novaPessoa3 = criaPessoa(3, "matheus", 3, dataDeNascimento, "rua dr ratisbona");
+    insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa2);
+    Pessoa * novaPessoa4 = criaPessoa(4, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa4);
 
-    inserePessoaNaListaDeNovos(&listaDeNovasPessoas, novaPessoa3);
-
+    char * a = "matheus";
+    selectListaPessoas(&listaDeNovasPessoas, NOME, a);
     inserirNoArquivo(listaDeNovasPessoas->cabeca, sizeof(Pessoa), listaDeNovasPessoas->quantidadeTotalDePessoas, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
     // fim
 
