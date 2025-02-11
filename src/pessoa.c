@@ -36,8 +36,8 @@ Pessoa * criaPessoa(int codigo, char * nome, int telefone, struct tm dataDeNasci
 
     char dataFormatada [11];
     strftime(dataFormatada, sizeof(dataFormatada), "%d/%m/%y", &(novaPessoa->dataDeNascimento));
+    strcpy(novaPessoa->dataFormatada, dataFormatada);
 
-    novaPessoa->dataFormatada = dataFormatada;
 
     novaPessoa->prox = NULL;
     novaPessoa->ant = NULL;
@@ -45,57 +45,40 @@ Pessoa * criaPessoa(int codigo, char * nome, int telefone, struct tm dataDeNasci
     return novaPessoa;
 }
 
-int comparaCodigo(Pessoa *p, void *valor) {
-    return p->codigo == *(int *)valor;
-}
-
-int comparaNome(Pessoa *p, void *valor) {
-    return strstr(p->nome, (char *)valor) != NULL;
-}
-
-int comparaTelefone(Pessoa *p, void *valor) {
-    return p->telefone == *(int *)valor;
-}
-
-int comparaData(Pessoa *p, void *valor) {
-    return strcmp(p->dataFormatada, (char *)valor) == 0;
-}
-
-ListaDePessoas * selectListaPessoas(ListaDePessoas ** listaDePessoas, enum camposDePessoa campo, void * valor) {
-    if(*listaDePessoas == NULL) {
-        return NULL;
-    }
-
-    ComparacaoDosCampos comparacao = NULL;
-
+int comparaPessoa(Pessoa *atual, enum camposDePessoa campo, void *valor) {
     switch (campo) {
         case CODIGO:
-            comparacao = comparaCodigo;
-            break;
+            return (atual->codigo == *(int *)valor);
+
         case NOME:
-            comparacao = comparaNome;
-            break;
+            return (strcmp(atual->nome, (char *)valor) == 0);
+
         case TELEFONE:
-            comparacao = comparaTelefone;
-            break;
+            return atual->telefone == *(int *)valor;
+
         case DATA:
-            comparacao = comparaData;
-            break;
+            return (strcmp(atual->dataFormatada, (char *)valor) == 0);
+
+        case ENDERECO:
+            return (strcmp(atual->endereco, (char *)valor) == 0);
+
         default:
-            return NULL;
+            return 0;
+    }
+}
+void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
+    if (*listaDePessoas == NULL || (*listaDePessoas)->cabeca == NULL) {
+        return;
     }
 
-    ListaDePessoas *listaFiltrada = criaListaDePessoas();
     Pessoa *atual = (*listaDePessoas)->cabeca;
 
     while (atual != NULL) {
-        if (comparacao(atual, valor)) {
+        if (comparaPessoa(atual, campo, valor)) {
             exibirPessoa(*atual);
         }
         atual = atual->prox;
     }
-
-    return listaFiltrada;
 }
 
 
@@ -119,43 +102,39 @@ ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa
     return *listaDePessoas;
 }
 
-ListaDePessoas * deletePessoa(ListaDePessoas ** listaDePessoas, int codigo) {
-    if(*listaDePessoas == NULL) {
+ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
+    if (*listaDePessoas == NULL || (*listaDePessoas)->cabeca == NULL) {
         return NULL;
     }
 
-    Pessoa * listaDePessoasAuxiliar = (*listaDePessoas)->cabeca;
+    Pessoa *atual = (*listaDePessoas)->cabeca;
 
-    while(listaDePessoasAuxiliar != NULL && listaDePessoasAuxiliar->codigo != codigo) {
-        listaDePessoasAuxiliar = listaDePessoasAuxiliar->prox;
-    }
+    while (atual != NULL) {
+        if (comparaPessoa(atual, campo, valor)) {
+            if (atual->ant == NULL) {
+                (*listaDePessoas)->cabeca = atual->prox;
+                if (atual->prox != NULL) {
+                    atual->prox->ant = NULL;
+                }
+            } else {
+                atual->ant->prox = atual->prox;
+                if (atual->prox != NULL) {
+                    atual->prox->ant = atual->ant;
+                }
+            }
 
-    if(listaDePessoasAuxiliar == NULL) {
-        return NULL;
+            Pessoa *temp = atual;
+            atual = atual->prox;
+            free(temp);
+            (*listaDePessoas)->quantidadeTotalDePessoas--;
+        } else {
+            atual = atual->prox;
+        }
     }
-
-    if(listaDePessoasAuxiliar->ant == NULL && listaDePessoasAuxiliar->prox == NULL) {
-        (*listaDePessoas)->cabeca = NULL;
-    }
-    else if(listaDePessoasAuxiliar->ant == NULL) {
-        (*listaDePessoas)->cabeca = listaDePessoasAuxiliar->prox;
-        listaDePessoasAuxiliar->prox->ant = NULL;
-    }
-
-    else if(listaDePessoasAuxiliar->prox == NULL) {
-        listaDePessoasAuxiliar->ant->prox = NULL;
-    }
-
-    else {
-        listaDePessoasAuxiliar->ant->prox = listaDePessoasAuxiliar->prox;
-        listaDePessoasAuxiliar->prox->ant = listaDePessoasAuxiliar->ant;
-    }
-
-    (*listaDePessoas)->quantidadeTotalDePessoas --;
-    free(listaDePessoasAuxiliar);
 
     return *listaDePessoas;
 }
+
 
 
 //select
