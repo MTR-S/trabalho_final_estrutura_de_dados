@@ -5,15 +5,24 @@
 #include "include/arquivo.h"
 #include "include/comando.h"
 
+/*
+ * Divisão do tratamento:
+ * Matheus: select e update
+ * Vinicius: delete e insert
+ */
+
 int main() {
+    /*
     Fila_comando *fila = NULL;
     inicializar_fila(&fila);
 
-    const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/teste.txt";
+    const char *arquivo = "./data/comandos.txt";
     carregar_comando_arquivo(&fila, arquivo);
     imprimir_fila(fila);
 
     destruir_fila(fila);
+     */
+
     struct tm dataDeNascimento;
     dataDeNascimento.tm_mday = 14;
     dataDeNascimento.tm_year = 2005;
@@ -28,10 +37,16 @@ int main() {
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa2);
     Pessoa * novaPessoa4 = criaPessoa(4, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa4);
+    Pessoa * novaPessoa5 = criaPessoa(5, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa5);
 
-    char * a = "matheus";
+    char * a = "matheus"; int codigo = 5;
+    printf("Antes de excluir:\n");
     selectListaPessoas(&listaDeNovasPessoas, NOME, a);
     inserirNoArquivo(listaDeNovasPessoas->cabeca, sizeof(Pessoa), listaDeNovasPessoas->quantidadeTotalDePessoas, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
+    printf("Depois de excluir:\n");
+    deletePessoa(&listaDeNovasPessoas, CODIGO, &codigo);
+    selectListaPessoas(&listaDeNovasPessoas, NOME, a);
     // fim
 
     // extraindo do arquivo

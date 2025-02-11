@@ -31,9 +31,6 @@ void inserir_comando(Fila_comando *fila, const char* descricao) {
         fila->inicio = new_cmd;
     }
     fila->final = new_cmd;
-
-
-
 }
 
 int validar_comando(const char* comando) {
