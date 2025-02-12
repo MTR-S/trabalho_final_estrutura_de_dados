@@ -6,10 +6,13 @@
 #include "include/comando.h"
 
 /*
- * Divisão do tratamento:
- * Matheus: select e update
- * Vinicius: delete e insert
+    Quando coletar os parametros da funcao SQL (Funções INSERT INTO e UPDATE)
+    Verificar quais os campos presentes,
+    Criar uma struct com os campos presentes com os valores passados
+    Os campos que nao foram passados valores vao ser NULL
+    Passar para as funções de struct a struct criada
  */
+
 
 int main() {
     /*
@@ -23,30 +26,28 @@ int main() {
     destruir_fila(fila);
      */
 
-    struct tm dataDeNascimento;
-    dataDeNascimento.tm_mday = 14;
-    dataDeNascimento.tm_year = 2005;
-    dataDeNascimento.tm_mon = 1;
-
     //inserindo no arquivo
     ListaDePessoas * listaDeNovasPessoas = criaListaDePessoas();
 
-    Pessoa * novaPessoa = criaPessoa(1, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    Pessoa * novaPessoa = criaPessoa(1, "matheus", 2, "14/01/2005", "rua dr ratisbona");
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa);
-    Pessoa * novaPessoa2 = criaPessoa(2, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    Pessoa * novaPessoa2 = criaPessoa(2, "matheus", 2, "14/01/2005", "rua dr ratisbona");
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa2);
-    Pessoa * novaPessoa4 = criaPessoa(4, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    Pessoa * novaPessoa4 = criaPessoa(4, "matheus", 2, "14/01/2005", "rua dr ratisbona");
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa4);
-    Pessoa * novaPessoa5 = criaPessoa(5, "matheus", 2, dataDeNascimento, "rua dr ratisbona");
+    Pessoa * novaPessoa5 = criaPessoa(5, "matheus", 2, "14/01/2005", "rua dr ratisbona");
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa5);
 
-    char * a = "matheus"; int codigo = 5;
+    char * a = "rua dr ratisbona"; int codigo = 5;
     printf("Antes de excluir:\n");
     selectListaPessoas(&listaDeNovasPessoas, NOME, a);
     inserirNoArquivo(listaDeNovasPessoas->cabeca, sizeof(Pessoa), listaDeNovasPessoas->quantidadeTotalDePessoas, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
     printf("Depois de excluir:\n");
     deletePessoa(&listaDeNovasPessoas, CODIGO, &codigo);
-    selectListaPessoas(&listaDeNovasPessoas, NOME, a);
+    Pessoa *camposAtualizados = criaPessoa(-1, "matheus de sousa", 997912055, "", "");
+    int valor = 1;
+    updatePessoas(&listaDeNovasPessoas, camposAtualizados, CODIGO, &valor);
+    selectListaPessoas(&listaDeNovasPessoas, ENDERECO, a);
     // fim
 
     // extraindo do arquivo

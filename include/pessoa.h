@@ -11,7 +11,6 @@ typedef struct pessoa {
     int codigo;
     char nome[50];
     int telefone;
-    struct tm dataDeNascimento;
     char dataFormatada[11];
     char endereco[50];
     struct pessoa * prox;
@@ -32,12 +31,14 @@ enum camposDePessoa {
 };
 
 typedef int (*ComparacaoDosCampos)(Pessoa *, void *);
-
 int comparaPessoa(Pessoa *atual, enum camposDePessoa campo, void *valor);
+
 ListaDePessoas * criaListaDePessoas();
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, struct tm dataDeNascimento, char * endereco);
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco);
+
 void selectListaPessoas(ListaDePessoas ** listaDePessoas, enum camposDePessoa campo, void * valor);
 ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa * novaPessoa);
 ListaDePessoas * deletePessoa(ListaDePessoas ** listaDePessoas, enum camposDePessoa campo, void * valor) ;
+ListaDePessoas * updatePessoas(ListaDePessoas **listaDePessoas, Pessoa * camposAtualizados, enum camposDePessoa campo, void * valor);
 
 #endif //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_PESSOA_H

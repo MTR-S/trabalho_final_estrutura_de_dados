@@ -22,7 +22,7 @@ ListaDePessoas * criaListaDePessoas() {
     return listaDePessoas;
 }
 
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, struct tm dataDeNascimento, char * endereco) {
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco) {
     Pessoa * novaPessoa = (Pessoa *) malloc(sizeof(typeof(Pessoa)));
     if(novaPessoa == NULL) {
         return NULL;
@@ -31,13 +31,8 @@ Pessoa * criaPessoa(int codigo, char * nome, int telefone, struct tm dataDeNasci
     novaPessoa->codigo = codigo;
     strcpy(novaPessoa->nome, nome);
     novaPessoa->telefone = telefone;
-    novaPessoa->dataDeNascimento = dataDeNascimento;
     strcpy(novaPessoa->endereco, endereco);
-
-    char dataFormatada [11];
-    strftime(dataFormatada, sizeof(dataFormatada), "%d/%m/%y", &(novaPessoa->dataDeNascimento));
-    strcpy(novaPessoa->dataFormatada, dataFormatada);
-
+    strcpy(novaPessoa->dataFormatada, data);
 
     novaPessoa->prox = NULL;
     novaPessoa->ant = NULL;
@@ -67,11 +62,11 @@ int comparaPessoa(Pessoa *atual, enum camposDePessoa campo, void *valor) {
     }
 }
 void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
-    if (*listaDePessoas == NULL || (*listaDePessoas)->cabeca == NULL) {
+    if ((*listaDePessoas)->cabeca == NULL) {
         return;
     }
 
-    Pessoa *atual = (*listaDePessoas)->cabeca;
+    Pessoa * atual = (*listaDePessoas)->cabeca;
 
     while (atual != NULL) {
         if (comparaPessoa(atual, campo, valor)) {
@@ -103,11 +98,11 @@ ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa
 }
 
 ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
-    if (*listaDePessoas == NULL || (*listaDePessoas)->cabeca == NULL) {
+    if ((*listaDePessoas)->cabeca == NULL) {
         return NULL;
     }
 
-    Pessoa *atual = (*listaDePessoas)->cabeca;
+    Pessoa * atual = (*listaDePessoas)->cabeca;
 
     while (atual != NULL) {
         if (comparaPessoa(atual, campo, valor)) {
@@ -130,6 +125,41 @@ ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePesso
         } else {
             atual = atual->prox;
         }
+    }
+
+    return *listaDePessoas;
+}
+
+ListaDePessoas * updatePessoas(ListaDePessoas **listaDePessoas, Pessoa * camposAtualizados, enum camposDePessoa campo, void * valor) {
+    if((*listaDePessoas)->cabeca == NULL) {
+        return NULL;
+    }
+
+    Pessoa * atual = (*listaDePessoas)->cabeca;
+
+    while (atual != NULL) {
+        if (comparaPessoa(atual, campo, valor)) {
+            if (camposAtualizados->codigo != -1) {
+                atual->codigo = camposAtualizados->codigo;
+            }
+
+            if (strlen(camposAtualizados->nome) > 0) {
+                strcpy(atual->nome, camposAtualizados->nome);
+            }
+
+            if (camposAtualizados->telefone != -1) {
+                atual->telefone = camposAtualizados->telefone;
+            }
+
+            if (strlen(camposAtualizados->dataFormatada) > 0) {
+                strcpy(atual->dataFormatada, camposAtualizados->dataFormatada);
+            }
+
+            if (strlen(camposAtualizados->endereco) > 0) {
+                strcpy(atual->endereco, camposAtualizados->endereco);
+            }
+        }
+        atual = atual->prox;
     }
 
     return *listaDePessoas;
