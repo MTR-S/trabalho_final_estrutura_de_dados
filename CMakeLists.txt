@@ -11,4 +11,6 @@ add_executable(trabalho_final_estrutura_de_dados main.c
         src/menu.c
         include/menu.h
         include/comando.h
-        src/comando.c)
+        src/comando.c
+        src/regex.c
+        src/regex.h)

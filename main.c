@@ -24,7 +24,7 @@ int main() {
     imprimir_fila(fila);
 
     destruir_fila(fila);
-     */
+
 
     //inserindo no arquivo
     ListaDePessoas * listaDeNovasPessoas = criaListaDePessoas();
@@ -58,6 +58,14 @@ int main() {
     listaDeNovasPessoas2->cabeca = (Pessoa *) malloc(sizeof(Pessoa) * listaDeNovasPessoas2->quantidadeTotalDePessoas);
     listaDeNovasPessoas2->cabeca = extrairDoArquivo(listaDeNovasPessoas2->cabeca, sizeof(Pessoa), "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin", listaDeNovasPessoas2->quantidadeTotalDePessoas);
     //fim
+*/
+    Fila_comando *fila = NULL;
+    inicializar_fila(&fila);
 
+    const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
+    carregar_comando_arquivo(&fila, arquivo);
+    imprimir_fila(fila);
+
+    destruir_fila(fila);
     return 0;
 }
