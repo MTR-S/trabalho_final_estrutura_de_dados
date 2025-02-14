@@ -22,7 +22,7 @@ void inicializar_fila(Fila_comando **fila) {
     (*fila)->final = NULL;
 }
 
-void inserir_comando(Fila_comando *fila, const char* descricao) {
+void inserir_comandoSQL(Fila_comando *fila, const char* descricao) {
     if (!validar_comando(descricao)) return;
 
     Comando *new_cmd = (Comando*)malloc(sizeof(Comando));
@@ -36,6 +36,20 @@ void inserir_comando(Fila_comando *fila, const char* descricao) {
     }
     fila->final = new_cmd;
 }
+
+void inserir_comandoC(Fila_comando **fila, const char *descricao) {
+    Comando *new_cmd = (Comando*)malloc(sizeof(Comando));
+    strcpy(new_cmd->descrição, descricao);
+    new_cmd->proximo = NULL;
+
+    if ((*fila)->final) {
+        (*fila)->final->proximo = new_cmd;
+    }else {
+        (*fila)->inicio = new_cmd;
+    }
+    (*fila)->final = new_cmd;
+}
+
 
 int validar_comando(const char* comando) {
     char comando_lower[255];
@@ -80,7 +94,7 @@ void carregar_comando_arquivo(Fila_comando **fila, const char* arquivo) {
     char linha[1000];
     while (fgets(linha, sizeof(linha), file)!= NULL) {
         linha[strcspn(linha, "\n")] = '\0';
-        inserir_comando(*fila, linha);
+        inserir_comandoSQL(*fila, linha);
     }
     fclose(file);
 
@@ -106,3 +120,40 @@ void destruir_fila(Fila_comando *fila) {
     }
     fila->inicio = fila->final = NULL;
 }
+
+#include <stdio.h>
+
+void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa,Fila_comando **fila_pet,Fila_comando **fila_tipo_pet) {
+   Comando *aux = fila->inicio;
+    Comando *pessoa = (*fila_pessoa)->inicio;
+    Comando *pet = (*fila_pet)->inicio;
+    Comando *tipo_pet = (*fila_tipo_pet)->inicio;
+    int codigo, codigo_cli, codigo_tipo;
+    char nome[255], descricao[255];
+    while (aux) {
+        char comando_lower[255];
+        strncpy(comando_lower, aux->descrição, sizeof(comando_lower) - 1);
+        comando_lower[sizeof(comando_lower) - 1] = '\0';
+
+        for (int i = 0; comando_lower[i] != '\0'; ++i) {
+            comando_lower[i] = (char)tolower(comando_lower[i]);
+        } //criar uma função pra isso
+
+        if (strstr(comando_lower, "insert into pet")== comando_lower) {
+            if (sscanf(aux->descrição, "insert into pet(codigo, codigo_cli, nome, codigo_tipo) values(%d, %d, '%254[^']', %d);",
+                     &codigo, &codigo_cli, nome, &codigo_tipo) == 4) {
+                sprintf(descricao, "inserir_pet(%d, %d, %s, %d)",codigo, codigo_cli, nome, codigo_tipo );
+                inserir_comandoC(fila_pet, descricao);
+                     }else {
+                         printf("Erro ao extrair valores!\n");
+                     }
+            break;
+        }if (strstr(comando_lower, "delete from") == comando_lower) {
+
+        }
+        aux= aux->proximo;
+    }
+
+}
+
+

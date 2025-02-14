@@ -20,3 +20,4 @@ int validar_sintaxe(const char *comando, const char *expressao) {
     regfree(&regex);
     return (ret == 0);
 }
+

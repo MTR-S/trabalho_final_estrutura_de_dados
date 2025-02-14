@@ -65,6 +65,7 @@ int main() {
     const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
     carregar_comando_arquivo(&fila, arquivo);
     imprimir_fila(fila);
+    extrair_arg_insert();
 
     destruir_fila(fila);
     return 0;
