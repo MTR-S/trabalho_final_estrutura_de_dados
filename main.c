@@ -61,12 +61,23 @@ int main() {
 */
     Fila_comando *fila = NULL;
     inicializar_fila(&fila);
+    Fila_comando *fila_pet = NULL;
+    Fila_comando *fila_pessoa = NULL;
+    Fila_comando *fila_tipo_pet = NULL;
+    inicializar_fila(&fila_pet);
+    inicializar_fila(&fila_pessoa);
+    inicializar_fila(&fila_tipo_pet);
 
     const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
     carregar_comando_arquivo(&fila, arquivo);
-    imprimir_fila(fila);
-    extrair_arg_insert();
-
+ //   imprimir_fila(fila);
+    criar_fila_tipos(fila, &fila_pessoa,  &fila_pet, &fila_tipo_pet);
+    printf("\n---------------------------------------------------------\n");
+    imprimir_fila(fila_pet);
+    printf("\n---------------------------------------------------------\n");
+    imprimir_fila(fila_pessoa);
+    printf("\n---------------------------------------------------------\n");
+    imprimir_fila(fila_tipo_pet);
     destruir_fila(fila);
     return 0;
 }

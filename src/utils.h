@@ -5,4 +5,5 @@
 #ifndef UTILS_H
 #define UTILS_H
 char *minusculo();
+void normalizar_aspas(char *str);
 #endif //UTILS_H
