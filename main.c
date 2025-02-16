@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "include/pessoa.h"
+#include "include/tipoDePet.h"
 #include "include/arquivo.h"
 #include "include/comando.h"
 
@@ -27,36 +28,39 @@ int main() {
 
 
     //inserindo no arquivo
+
     ListaDePessoas * listaDeNovasPessoas = criaListaDePessoas();
 
-    Pessoa * novaPessoa = criaPessoa(1, "matheus", 2, "14/01/2005", "rua dr ratisbona");
+    Pessoa * novaPessoa = criaPessoa(1, "matheus", 2, "14/01/2005", "rua dr ratisbona", 1);
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa);
-    Pessoa * novaPessoa2 = criaPessoa(2, "matheus", 2, "14/01/2005", "rua dr ratisbona");
+    Pessoa * novaPessoa2 = criaPessoa(2, "matheus", 2, "14/01/2005", "rua dr ratisbona", 1);
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa2);
-    Pessoa * novaPessoa4 = criaPessoa(4, "matheus", 2, "14/01/2005", "rua dr ratisbona");
+    Pessoa * novaPessoa4 = criaPessoa(4, "matheus", 2, "14/01/2005", "rua dr ratisbona", 1);
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa4);
-    Pessoa * novaPessoa5 = criaPessoa(5, "matheus", 2, "14/01/2005", "rua dr ratisbona");
+    Pessoa * novaPessoa5 = criaPessoa(5, "matheus", 2, "14/01/2005", "rua dr ratisbona", 1);
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa5);
 
     char * a = "rua dr ratisbona"; int codigo = 5;
     printf("Antes de excluir:\n");
-    selectListaPessoas(&listaDeNovasPessoas, NOME, a);
-    inserirNoArquivo(listaDeNovasPessoas->cabeca, sizeof(Pessoa), listaDeNovasPessoas->quantidadeTotalDePessoas, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
+    selectListaPessoas(&listaDeNovasPessoas, ENDERECO, a);
+    inserirNoArquivo(listaDeNovasPessoas->cabeca, sizeof(Pessoa), listaDeNovasPessoas->quantidade, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
     printf("Depois de excluir:\n");
     deletePessoa(&listaDeNovasPessoas, CODIGO, &codigo);
-    Pessoa *camposAtualizados = criaPessoa(-1, "matheus de sousa", 997912055, "", "");
+    Pessoa *camposAtualizados = criaPessoa(-1, "matheus de sousa", 997912055, "", "", 0);
     int valor = 1;
     updatePessoas(&listaDeNovasPessoas, camposAtualizados, CODIGO, &valor);
     selectListaPessoas(&listaDeNovasPessoas, ENDERECO, a);
+
+
     // fim
 
     // extraindo do arquivo
     ListaDePessoas * listaDeNovasPessoas2 = criaListaDePessoas();
 
-    listaDeNovasPessoas2->quantidadeTotalDePessoas = extrairQuantidadeNoArquivo(listaDeNovasPessoas2->cabeca, sizeof(Pessoa), "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
+    listaDeNovasPessoas2->quantidade = extrairQuantidadeNoArquivo(listaDeNovasPessoas2->cabeca, sizeof(Pessoa), "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
 
-    listaDeNovasPessoas2->cabeca = (Pessoa *) malloc(sizeof(Pessoa) * listaDeNovasPessoas2->quantidadeTotalDePessoas);
-    listaDeNovasPessoas2->cabeca = extrairDoArquivo(listaDeNovasPessoas2->cabeca, sizeof(Pessoa), "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin", listaDeNovasPessoas2->quantidadeTotalDePessoas);
+    listaDeNovasPessoas2->cabeca = (Pessoa *) malloc(sizeof(Pessoa) * listaDeNovasPessoas2->quantidade);
+    listaDeNovasPessoas2->cabeca = extrairDoArquivo(listaDeNovasPessoas2->cabeca, sizeof(Pessoa), "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin", listaDeNovasPessoas2->quantidade);
     //fim
 */
     Fila_comando *fila = NULL;

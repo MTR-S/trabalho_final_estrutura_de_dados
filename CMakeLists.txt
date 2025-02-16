@@ -15,4 +15,8 @@ add_executable(trabalho_final_estrutura_de_dados main.c
         src/regex.c
         src/regex.h
         src/utils.c
-        src/utils.h)
+        src/utils.h
+        src/tipoDePet.c
+        include/tipoDePet.h
+        src/pet.c
+        include/pet.h)
