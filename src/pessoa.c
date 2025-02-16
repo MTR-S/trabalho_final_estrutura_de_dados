@@ -81,8 +81,15 @@ int maiorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa *
         case TELEFONE:
             return proximoInserido->telefone > raiz->pessoaNaLista->telefone;
 
-        case DATA:
-            return (strcmp(proximoInserido->dataFormatada, raiz->pessoaNaLista->dataFormatada) > 0);
+        case DATA: {
+            int dia, mes, ano;
+            sscanf(proximoInserido->dataFormatada, "%d/%d/%d", &dia, &mes, &ano); // Extrai dia, mês e ano
+            int dataProximoInserido = (ano * 10000) + (mes * 100) + dia;
+
+            sscanf(raiz->pessoaNaLista->dataFormatada, "%d/%d/%d", &dia, &mes, &ano);
+            int dataRaiz = (ano * 10000) + (mes * 100) + dia;
+            return dataProximoInserido > dataRaiz;
+        }
 
         case ENDERECO:
             return (strcmp(proximoInserido->endereco, raiz->pessoaNaLista->endereco) > 0);
@@ -103,8 +110,15 @@ int menorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa *
         case TELEFONE:
             return proximoInserido->telefone < raiz->pessoaNaLista->telefone;
 
-        case DATA:
-            return (strcmp(proximoInserido->dataFormatada, raiz->pessoaNaLista->dataFormatada) < 0);
+        case DATA: {
+            int dia, mes, ano;
+            sscanf(proximoInserido->dataFormatada, "%d/%d/%d", &dia, &mes, &ano); // Extrai dia, mês e ano
+            int dataProximoInserido = (ano * 10000) + (mes * 100) + dia;
+
+            sscanf(raiz->pessoaNaLista->dataFormatada, "%d/%d/%d", &dia, &mes, &ano);
+            int dataRaiz = (ano * 10000) + (mes * 100) + dia;
+            return dataProximoInserido < dataRaiz;
+        }
 
         case ENDERECO:
             return (strcmp(proximoInserido->endereco, raiz->pessoaNaLista->endereco) < 0);
