@@ -12,6 +12,10 @@ add_executable(trabalho_final_estrutura_de_dados main.c
         include/menu.h
         include/comando.h
         src/comando.c
+        src/regex.c
+        src/regex.h
+        src/utils.c
+        src/utils.h
         src/tipoDePet.c
         include/tipoDePet.h
         src/pet.c

@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "..\include\arquivo.h"
+#include "../include/arquivo.h"
 
 void *inserirNoArquivo(void *dados, size_t tamanhoElemento, int quantidade, const char *caminhoDoArquivo) {
     FILE * arquivoAberto = fopen(caminhoDoArquivo, "rb+");

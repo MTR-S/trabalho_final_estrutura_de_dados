@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "..\include\pessoa.h"
+#include "../include/pessoa.h"
 #include "../include/menu.h"
 
 ListaDePessoas * criaListaDePessoas() {
