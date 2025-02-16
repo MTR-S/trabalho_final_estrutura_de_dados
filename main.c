@@ -72,10 +72,14 @@ int main() {
     inicializar_fila(&fila_pessoa);
     inicializar_fila(&fila_tipo_pet);
 
+    ListaDePessoas *pessoas = criaListaDePessoas();
+
+
     const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
     carregar_comando_arquivo(&fila, arquivo);
  //   imprimir_fila(fila);
     criar_fila_tipos(fila, &fila_pessoa,  &fila_pet, &fila_tipo_pet);
+    executar_cmd_pessoa(&fila_pessoa, &pessoas);
     printf("\n---------------------------------------------------------\n");
     imprimir_fila(fila_pet);
     printf("\n---------------------------------------------------------\n");

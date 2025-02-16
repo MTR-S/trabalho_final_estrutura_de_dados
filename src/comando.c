@@ -4,14 +4,15 @@
 
 #include "../include/comando.h"
 #include "../include/regex.h"
-#include "utils.h"
+#include "../include/utils.h"
+#include "../include/pessoa.h"
 
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "regex.h"
+#include "../include/regex.h"
 
 void inicializar_fila(Fila_comando **fila) {
     *fila = (Fila_comando *)malloc(sizeof(Fila_comando));
@@ -67,18 +68,18 @@ int validar_comando(const char* comando) {
     }
     if (strstr(comando_lower, "update") == comando_lower){
         const char *pattern =  "^[[:space:]]*update[[:space:]]+(tipo_pet|pet|pessoa)[[:space:]]+set[[:space:]]+"
-    "(([[:space:]]*(nome|codigo|fone|endereco|dt|codigo_pes|codigo_tipo)[[:space:]]*="
+    "(([[:space:]]*(nome|codigo|telefone|endereco|data_nascimento|codigo_pes|codigo_tipo)[[:space:]]*="
     "[[:space:]]*('[^']*'|[0-9]+)[[:space:]]*,?)+)[[:space:]]+"
     "where[[:space:]]+codigo[[:space:]]*=[[:space:]]*[0-9]+[[:space:]]*;$";
         return (validar_sintaxe(comando_lower, pattern));
     }
     if ( strstr(comando_lower, "delete from") == comando_lower) {
-        const char *pattern = "^delete from[[:space:]]+(tipo_pet|pet|pessoa)[[:space:]]+where[[:space:]]+(nome|codigo|fone|endereco|dt|codigo_pes|codigo_tipo)[[:space:]]*=[[:space:]]*('[^']*'|[0-9]+)[[:space:]]*;$";
+        const char *pattern = "^delete from[[:space:]]+(tipo_pet|pet|pessoa)[[:space:]]+where[[:space:]]+(nome|codigo|telefone|endereco|data_nascimento|codigo_pes|codigo_tipo)[[:space:]]*=[[:space:]]*('[^']*'|[0-9]+)[[:space:]]*;$";
         return (validar_sintaxe(comando_lower, pattern));
 
     }
     if ( strstr(comando_lower, "select * from") == comando_lower ) {
-        const char *pattern = "^select[[:space:]]+\\*[[:space:]]+from[[:space:]]+(pet|tipo_pet|pessoa)([[:space:]]+where[[:space:]]+(nome|codigo|fone|endereco|dt|codigo_pes|codigo_tipo)[[:space:]]*=[[:space:]]*('[^']*'|[0-9]+))?([[:space:]]+order[[:space:]]+by[[:space:]]+(nome|codigo)[[:space:]]*(asc|desc)?)?[[:space:]]*;$";
+        const char *pattern = "^select[[:space:]]+\\*[[:space:]]+from[[:space:]]+(pet|tipo_pet|pessoa)([[:space:]]+where[[:space:]]+(nome|codigo|telefone|endereco|data_nascimento|codigo_pes|codigo_tipo)[[:space:]]*=[[:space:]]*('[^']*'|[0-9]+))?([[:space:]]+order[[:space:]]+by[[:space:]]+(nome|codigo)[[:space:]]*(asc|desc)?)?[[:space:]]*;$";
         return (validar_sintaxe(comando_lower, pattern));
     }
 
@@ -216,7 +217,7 @@ void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa, Fila_coman
         } else if (strstr(comando_lower, "update") == comando_lower) {
             char tabela[50], campo_set[50], valor_set[50], campo_where[50], valor_where[50];
 
-            if (sscanf(aux->descrição, "update %49s set %49s = %49[^ ] where %49s = %49[^;];",
+            if (sscanf(aux->descrição, "update %49s set %49s =  %*['‘’]%49[^'‘’]%*['‘’] where %49s = %49[^;];",
                        tabela, campo_set, valor_set, campo_where, valor_where) == 5) {
                 // Verifica a tabela e formata o comando corretamente
                 if (strcmp(tabela, "pet") == 0) {
@@ -240,7 +241,7 @@ void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa, Fila_coman
 
             // Caso 1: SELECT * FROM tabela WHERE coluna = valor;
             if (sscanf(aux->descrição, "select * from %49s where %49s = %d;", tabela, coluna, &codigo) == 3) {   //select * from pet order by codigo; select * from pet order by nome;
-                snprintf(descricao, sizeof(descricao), "selecionar_%s(%d)", tabela, codigo);
+                snprintf(descricao, sizeof(descricao), "selecionar_%s(%s, %d)", tabela, coluna, codigo);
                 if (strcmp(tabela, "pessoa") == 0) {
                     inserir_comandoC(fila_pessoa, descricao);
                 }else if (strcmp(tabela, "pet")==0) {
@@ -287,6 +288,125 @@ void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa, Fila_coman
         aux = aux->proximo; // Avançar para o próximo comando na fila
     }
 }
+void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
+    Comando *aux = (*pessoa)->inicio;
+    Pessoa *new_pessoa;
+
+    while (aux) {
+        if (strstr(aux->descrição, "inserir_pessoa") == aux->descrição) {
+            char codigo[255] = "", nome[255]="", fone[30] = "", endereco[255] = "", dt[11]="";
+            int cod, telefone = 0;  // Inicializa telefone como 0 caso não seja informado
+
+            // Tenta capturar todos os argumentos (caso completo)
+            int num_args = sscanf(aux->descrição, "inserir_pessoa(%254[^,], '%254[^']', '%29[^']', '%254[^']', '%10[^']')",
+                                  codigo, nome, fone, endereco, dt);
+
+            if (num_args == 4) {
+                // Tenta verificar qual campo está ausente (fone ou endereço)
+                char temp_fone[30], temp_endereco[255];
+
+                int check_fone = sscanf(aux->descrição, "inserir_pessoa(%254[^,], '%254[^']', '%29[^']', '%10[^']')",
+                                        codigo, nome, temp_fone, dt);
+
+                if (check_fone == 4) {
+                    endereco[0] = '\0';  // Endereço está ausente
+                    strcpy(fone, temp_fone);
+                } else {
+                    int check_endereco = sscanf(aux->descrição, "inserir_pessoa(%254[^,], '%254[^']', '%254[^']', '%10[^']')",
+                                                codigo, nome, temp_endereco, dt);
+
+                    if (check_endereco == 4) {
+                        fone[0] = '\0';  // Telefone está ausente
+                        strcpy(endereco, temp_endereco);
+                    }
+                }
+            }
+
+            if (num_args == 3) {
+                // Caso só tenha código, nome e data
+                int check_data = sscanf(aux->descrição, "inserir_pessoa(%254[^,], '%254[^']', '%10[^']')",
+                                        codigo, nome, dt);
+                if (check_data == 3) {
+                    fone[0] = '\0';
+                    endereco[0] = '\0';
+                }
+
+            }
+
+            if (num_args >= 3) {  // Pelo menos código, nome e data são obrigatórios
+                cod = atoi(codigo);
+
+                // Se telefone foi informado, converte para int
+                if (fone[0] != '\0') {
+                    telefone = atoi(fone);
+                }
+
+                new_pessoa = criaPessoa(cod, nome, telefone, dt, endereco, 0);
+                *pessoas = insertIntoListaPessoas(pessoas, new_pessoa);
+            } else {
+                printf("Erro ao processar comando: %s\n", aux->descrição);
+            }
+        }if (strstr(aux->descrição, "deletar_pessoa")== aux->descrição) {
+            char campo[100] = "", valor[100] = "";
+            if (sscanf(aux->descrição, "deletar_pessoa(%99[^,], '%99[^']')", campo, valor) == 2 ||
+    sscanf(aux->descrição, "deletar_pessoa(%99[^,], %99s)", campo, valor) == 2){
+                if (strcmp(campo, "codigo")==0) {
+                    int valor_int = atoi(valor);
+                    *pessoas = deletePessoa(pessoas, CODIGO, &valor_int);
+                }if (strcmp(campo, "nome")==0) {
+                    *pessoas = deletePessoa(pessoas, NOME, valor);
+                }if (strcmp(campo, "data_nascimento")==0) {
+                    *pessoas = deletePessoa(pessoas, DATA, valor);
+                }if (strcmp(campo, "telefone")==0) {
+                    int fone_int = atoi(valor);
+                    *pessoas = deletePessoa(pessoas, TELEFONE, &fone_int);
+                }
+
+            }
+        }if (strstr(aux->descrição, "selecionar_pessoa")==aux->descrição) {
+            char campo_sel[50]="", valor_sel[100] ="";
+            if ( sscanf(aux->descrição, "selecionar_pessoa(%49[^,], %99[^,])", campo_sel, valor_sel) == 2) {
+                int valor_sel_int = atoi(valor_sel);
+                selectListaPessoas(pessoas, CODIGO, &valor_sel_int);
+            }
+        }if (strstr(aux->descrição, "atualizar_pessoa") == aux->descrição) {
+            char campo_up[100], codigo[255], valor[255], var[255];
+
+            if (sscanf(aux->descrição, "atualizar_pessoa(%99[^,], %254[^,], %254[^,], %254[^,])", campo_up, valor, var, codigo) == 4) {
+                int codigo_int = atoi(codigo);
+
+                // Caso: Atualizar telefone
+                if (strcmp(campo_up, "telefone") == 0) {
+                    int telefone = atoi(valor);
+                    Pessoa *dados_atualizados = criaPessoa(-1, "", telefone, "", "", 1);
+                    updatePessoas(pessoas, dados_atualizados, TELEFONE, &telefone);
+
+                    // Caso: Atualizar nome
+                } else if (strcmp(campo_up, "'nome'") == 0) {
+                    Pessoa *dados_atualizados = criaPessoa(-1, valor, -1, "", "", 1);
+                    updatePessoas(pessoas, dados_atualizados, NOME, valor);
+
+                    // Caso: Atualizar data de nascimento
+                } else if (strcmp(campo_up, "data_nascimento") == 0) {
+                    Pessoa *dados_atualizados = criaPessoa(-1, "", -1, valor, "", 1);
+                    updatePessoas(pessoas, dados_atualizados, DATA, valor);
+
+                    // Caso: Atualizar endereço
+                } else if (strcmp(campo_up, "endereco") == 0) {
+                    Pessoa *dados_atualizados = criaPessoa(-1, "", -1, "", valor, 1);
+                    updatePessoas(pessoas, dados_atualizados, ENDERECO, valor);
+                }
+            }
+        }
+
+        aux = aux->proximo;
+    }
+}
+
+void executar_cmd_pet() {
+
+}
+
 
 
 

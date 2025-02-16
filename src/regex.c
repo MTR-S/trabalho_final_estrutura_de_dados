@@ -2,7 +2,7 @@
 // Created by vinicius on 11/02/25.
 //
 
-#include "regex.h"
+#include "../include/regex.h"
 #include <regex.h>
 #include <stdlib.h>
 #include <stdio.h>

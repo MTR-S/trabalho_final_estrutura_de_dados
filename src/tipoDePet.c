@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "..\include\tipoDePet.h"
+#include "../include/tipoDePet.h"
 #include "../include/menu.h"
 
 ListaDeTipoDePets * criaListaDeTiposDePet(){

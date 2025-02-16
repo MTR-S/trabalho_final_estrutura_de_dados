@@ -4,6 +4,8 @@
 
 #ifndef TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
 #define TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
+#include "../include/pessoa.h"
+
 
 typedef struct Comandos {
     char descrição [1000];
@@ -24,5 +26,6 @@ void destruir_fila(Fila_comando *fila);
 void extrair_arg_insert();
 void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa,Fila_comando **fila_pet,Fila_comando **fila_tipo_pet);
 void inserir_comandoC(Fila_comando **fila, const char *descricao);
+void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas);
 #endif
 //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
