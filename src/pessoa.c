@@ -1,7 +1,3 @@
-//
-// Created by Casa on 06/02/2025.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -17,15 +13,27 @@ ListaDePessoas * criaListaDePessoas() {
     }
 
     listaDePessoas->cabeca = NULL;
-    listaDePessoas->quantidadeTotalDePessoas = 0;
+    listaDePessoas->quantidade = 0;
 
     return listaDePessoas;
 }
 
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco) {
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos) {
     Pessoa * novaPessoa = (Pessoa *) malloc(sizeof(typeof(Pessoa)));
     if(novaPessoa == NULL) {
         return NULL;
+    }
+
+    if(restringirCampos) {
+        if(codigo < 0) {
+            return NULL;
+        }
+        if(strlen(nome) == 0) {
+            return NULL;
+        }
+        if(strlen(data) == 0) {
+            return NULL;
+        }
     }
 
     novaPessoa->codigo = codigo;
@@ -92,7 +100,7 @@ ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa
     }
 
     (*listaDePessoas)->cabeca = novaPessoa;
-    (*listaDePessoas)->quantidadeTotalDePessoas++;
+    (*listaDePessoas)->quantidade++;
 
     return *listaDePessoas;
 }
@@ -121,7 +129,7 @@ ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePesso
             Pessoa *temp = atual;
             atual = atual->prox;
             free(temp);
-            (*listaDePessoas)->quantidadeTotalDePessoas--;
+            (*listaDePessoas)->quantidade--;
         } else {
             atual = atual->prox;
         }
@@ -166,9 +174,4 @@ ListaDePessoas * updatePessoas(ListaDePessoas **listaDePessoas, Pessoa * camposA
 }
 
 
-
-//select
-//insert into - OK
-//delete
-//update
 

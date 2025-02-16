@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include "../include/menu.h"
-#include "../include/pessoa.h"
+#include "../include/pet.h"
 
 void exibirPessoa(Pessoa pessoa) {
     printf("---\n");
@@ -16,3 +16,19 @@ void exibirPessoa(Pessoa pessoa) {
     printf("Endereco: %s\n", pessoa.endereco);
     printf("---\n");
 }
+
+void exibirTipoDePet(TipoDePet tipoDePet) {
+    printf("---\n");
+    printf("Codigo: %d\n", tipoDePet.codigo);
+    printf("Nome: %s\n", tipoDePet.nome);
+    printf("---\n");
+};
+
+void exibirPet(Pet pet) {
+    printf("---\n");
+    printf("Codigo: %d\n", pet.codigo);
+    printf("Codigo da Pessoa: %d\n", pet.codigo_pes);
+    printf("Nome do Pet: %s\n", pet.nome);
+    printf("Codigo do Tipo de Pet: %d\n", pet.codigo_tipo);
+    printf("---\n");
+};

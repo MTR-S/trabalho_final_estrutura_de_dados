@@ -18,7 +18,7 @@ typedef struct pessoa {
 }Pessoa;
 
 typedef struct listaDePessoas {
-    int quantidadeTotalDePessoas;
+    int quantidade;
     struct pessoa * cabeca;
 }ListaDePessoas;
 
@@ -30,11 +30,11 @@ enum camposDePessoa {
     ENDERECO,
 };
 
-typedef int (*ComparacaoDosCampos)(Pessoa *, void *);
+typedef int (*ComparacaoDosCamposPessoas)(Pessoa *, void *);
 int comparaPessoa(Pessoa *atual, enum camposDePessoa campo, void *valor);
 
 ListaDePessoas * criaListaDePessoas();
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco);
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos);
 
 void selectListaPessoas(ListaDePessoas ** listaDePessoas, enum camposDePessoa campo, void * valor);
 ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa * novaPessoa);
