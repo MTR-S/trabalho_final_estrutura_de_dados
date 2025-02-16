@@ -18,17 +18,19 @@ ListaDeTipoDePets * criaListaDeTiposDePet(){
     return listaDeTipoDePets;
 }
 
-TipoDePet * criaTipoDePet(int codigo, char * nome) {
+TipoDePet * criaTipoDePet(int codigo, char * nome, int restringirCampos) {
     TipoDePet * novoTipoDePet = (TipoDePet *) malloc(sizeof(typeof(TipoDePet)));
     if(novoTipoDePet == NULL) {
         return NULL;
     }
 
-    if(codigo < 0) {
-        return NULL;
-    }
-    if(strlen(nome) == 0) {
-        return NULL;
+    if(restringirCampos) {
+        if(codigo < 0) {
+            return NULL;
+        }
+        if(strlen(nome) == 0) {
+            return NULL;
+        }
     }
 
     novoTipoDePet->codigo = codigo;
@@ -48,12 +50,96 @@ int comparaTipoDePet(TipoDePet *atual, enum camposDeTipoDePet campo, void *valor
             return (strcmp(atual->nome, (char *)valor) == 0);
     }
 }
-void selectListaTipoDePet(ListaDeTipoDePets ** listaDeTipoDePets, enum camposDeTipoDePet campo, void * valor) {
-    if ((*listaDeTipoDePets)->cabeca == NULL) {
+int maiorQueTipoDePet(TipoDePetNaArvoreBin * raiz, enum camposDeTipoDePet campo, TipoDePet * proximoInserido){
+    switch (campo) {
+        case CODIGO_TIPO_DE_PET:
+            return proximoInserido->codigo > raiz->tipoDePetNaLista->codigo;
+        default:
+            return (strcmp(proximoInserido->nome, raiz->tipoDePetNaLista->nome) > 0);
+    }
+}
+
+int menorQueTipoDePet(TipoDePetNaArvoreBin * raiz, enum camposDeTipoDePet campo, TipoDePet * proximoInserido) {
+    switch (campo) {
+        case CODIGO_TIPO_DE_PET:
+            return proximoInserido->codigo < raiz->tipoDePetNaLista->codigo;
+        default:
+            return (strcmp(proximoInserido->nome, raiz->tipoDePetNaLista->nome) < 0);
+    }
+}
+
+TipoDePetNaArvoreBin * insertNaArvoreDeTipoDePet(TipoDePetNaArvoreBin * raiz, TipoDePet * proximoInserido, enum camposDeTipoDePet campoOrderBy) {
+    if(raiz == NULL) {
+        TipoDePetNaArvoreBin * novoTipoDePetInseridoNaArvore = (TipoDePetNaArvoreBin *) malloc(sizeof(typeof(TipoDePetNaArvoreBin)));
+        if(novoTipoDePetInseridoNaArvore == NULL) {
+            return NULL;
+        }
+
+        novoTipoDePetInseridoNaArvore->tipoDePetNaLista = proximoInserido;
+        novoTipoDePetInseridoNaArvore->direita = NULL;
+        novoTipoDePetInseridoNaArvore->esquerda = NULL;
+
+        return novoTipoDePetInseridoNaArvore;
+    }
+
+    if(menorQueTipoDePet(raiz, campoOrderBy, proximoInserido)) {
+        raiz->esquerda = insertNaArvoreDeTipoDePet(raiz->esquerda, proximoInserido, campoOrderBy);
+    }
+
+    if(maiorQueTipoDePet(raiz, campoOrderBy, proximoInserido)) {
+        raiz->direita = insertNaArvoreDeTipoDePet(raiz->direita, proximoInserido, campoOrderBy);
+    }
+
+    return raiz;
+}
+
+TipoDePetNaArvoreBin * orderByTipoDePet(ListaDeTipoDePets * listaDePet, enum camposDeTipoDePet campoOrderBy){
+    TipoDePetNaArvoreBin * raiz = (TipoDePetNaArvoreBin *) malloc(sizeof(typeof(TipoDePetNaArvoreBin)));
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    raiz->tipoDePetNaLista = listaDePet->cabeca;
+    raiz->direita = NULL;
+    raiz->esquerda = NULL;
+
+    TipoDePet * atual = listaDePet->cabeca;
+
+    while(atual != NULL) {
+        raiz = insertNaArvoreDeTipoDePet(raiz, atual, campoOrderBy);
+        atual = atual->prox;
+    }
+
+    return raiz;
+}
+
+void * inOrderTraversalArvoreTipoDePet(TipoDePetNaArvoreBin * raiz) {
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    inOrderTraversalArvoreTipoDePet(raiz->esquerda);
+
+    exibirTipoDePet(*(raiz->tipoDePetNaLista));
+
+    inOrderTraversalArvoreTipoDePet(raiz->direita);
+
+    return raiz;
+}
+
+void selectListaTipoDePet(ListaDeTipoDePets ** listaDeTipoDePet, enum camposDeTipoDePet campo, void * valor, int orderByPresente, enum camposDeTipoDePet campoOrderBy) {
+    if ((*listaDeTipoDePet)->cabeca == NULL) {
         return;
     }
 
-    TipoDePet * atual = (*listaDeTipoDePets)->cabeca;
+    TipoDePet * atual = (*listaDeTipoDePet)->cabeca;
+
+    if(orderByPresente) {
+        TipoDePetNaArvoreBin * raiz = orderByTipoDePet(*listaDeTipoDePet, campoOrderBy);
+        inOrderTraversalArvoreTipoDePet(raiz);
+
+        return;
+    }
 
     while (atual != NULL) {
         if (comparaTipoDePet(atual, campo, valor)) {
@@ -62,7 +148,6 @@ void selectListaTipoDePet(ListaDeTipoDePets ** listaDeTipoDePets, enum camposDeT
         atual = atual->prox;
     }
 }
-
 
 ListaDeTipoDePets * insertIntoTipoDePet(ListaDeTipoDePets ** listaDeTipoDePet, TipoDePet * novoTipoDePet) {
     if(novoTipoDePet == NULL) {

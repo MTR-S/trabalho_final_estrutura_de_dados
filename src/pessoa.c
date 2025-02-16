@@ -69,12 +69,124 @@ int comparaPessoa(Pessoa *atual, enum camposDePessoa campo, void *valor) {
             return 0;
     }
 }
-void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
+
+int maiorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa * proximoInserido) {
+    switch (campo) {
+        case CODIGO:
+            return proximoInserido->codigo > raiz->pessoaNaLista->codigo;
+
+        case NOME:
+            return (strcmp(proximoInserido->nome, raiz->pessoaNaLista->nome) > 0);
+
+        case TELEFONE:
+            return proximoInserido->telefone > raiz->pessoaNaLista->telefone;
+
+        case DATA:
+            return (strcmp(proximoInserido->dataFormatada, raiz->pessoaNaLista->dataFormatada) > 0);
+
+        case ENDERECO:
+            return (strcmp(proximoInserido->endereco, raiz->pessoaNaLista->endereco) > 0);
+
+        default:
+            return 0;
+    }
+}
+
+int menorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa * proximoInserido) {
+    switch (campo) {
+        case CODIGO:
+            return proximoInserido->codigo < raiz->pessoaNaLista->codigo;
+
+        case NOME:
+            return (strcmp(proximoInserido->nome, raiz->pessoaNaLista->nome) < 0);
+
+        case TELEFONE:
+            return proximoInserido->telefone < raiz->pessoaNaLista->telefone;
+
+        case DATA:
+            return (strcmp(proximoInserido->dataFormatada, raiz->pessoaNaLista->dataFormatada) < 0);
+
+        case ENDERECO:
+            return (strcmp(proximoInserido->endereco, raiz->pessoaNaLista->endereco) < 0);
+
+        default:
+            return 0;
+    }
+}
+
+PessoaNaArvoreBin * insertNaArvoreDePessoas(PessoaNaArvoreBin * raiz, Pessoa * proximoInserido, enum camposDePessoa campoOrderBy) {
+    if(raiz == NULL) {
+        PessoaNaArvoreBin * novaPessoaInseridaNaArvore = (PessoaNaArvoreBin *) malloc(sizeof(typeof(PessoaNaArvoreBin)));
+        if(novaPessoaInseridaNaArvore == NULL) {
+            return NULL;
+        }
+
+        novaPessoaInseridaNaArvore->pessoaNaLista = proximoInserido;
+        novaPessoaInseridaNaArvore->direita = NULL;
+        novaPessoaInseridaNaArvore->esquerda = NULL;
+
+        return novaPessoaInseridaNaArvore;
+    }
+
+    if(menorQuePessoa(raiz, campoOrderBy, proximoInserido)) {
+        raiz->esquerda = insertNaArvoreDePessoas(raiz->esquerda, proximoInserido, campoOrderBy);
+    }
+
+    if(maiorQuePessoa(raiz, campoOrderBy, proximoInserido)) {
+        raiz->direita = insertNaArvoreDePessoas(raiz->direita, proximoInserido, campoOrderBy);
+    }
+
+    return raiz;
+}
+
+PessoaNaArvoreBin * orderByPessoa(ListaDePessoas * listaDePessoas, enum camposDePessoa campoOrderBy) {
+    PessoaNaArvoreBin * raiz = (PessoaNaArvoreBin *) malloc(sizeof(typeof(PessoaNaArvoreBin)));
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    raiz->pessoaNaLista = listaDePessoas->cabeca;
+    raiz->direita = NULL;
+    raiz->esquerda = NULL;
+
+    Pessoa * atual = listaDePessoas->cabeca;
+
+    while(atual != NULL) {
+        raiz = insertNaArvoreDePessoas(raiz, atual, campoOrderBy);
+        atual = atual->prox;
+    }
+
+    return raiz;
+}
+
+void * inOrderTraversalArvorePessoa(PessoaNaArvoreBin * raiz) {
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    inOrderTraversalArvorePessoa(raiz->esquerda);
+
+    exibirPessoa(*(raiz->pessoaNaLista));
+
+    inOrderTraversalArvorePessoa(raiz->direita);
+
+    return raiz;
+}
+
+
+void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor, int orderByPresente, enum camposDePessoa campoOrderBy) {
     if ((*listaDePessoas)->cabeca == NULL) {
         return;
     }
 
     Pessoa * atual = (*listaDePessoas)->cabeca;
+
+    if(orderByPresente) {
+        PessoaNaArvoreBin * raiz = orderByPessoa(*listaDePessoas, campoOrderBy);
+        inOrderTraversalArvorePessoa(raiz);
+
+        return;
+    }
 
     while (atual != NULL) {
         if (comparaPessoa(atual, campo, valor)) {
