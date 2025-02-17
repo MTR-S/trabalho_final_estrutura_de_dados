@@ -15,6 +15,7 @@ void inserirNoArquivoPessoa(Pessoa *cabeca, const char *caminhoDoArquivo);
 void inserirNoArquivoPet(Pet *cabeca, const char *caminhoDoArquivo);
 void * extrairDoArquivoPet(const char *caminhoDoArquivo);
 void inserirNoArquivoTipoDePet(TipoDePet *cabeca, const char *caminhoDoArquivo);
+void * extrairDoArquivoTipoDePet(const char *caminhoDoArquivo);
 
 
 #endif //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_ARQUIVO_H

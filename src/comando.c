@@ -3,7 +3,7 @@
 //
 
 #include "../include/comando.h"
-#include "../include/regex.h"
+#include "../include/myregex.h"
 #include "../include/utils.h"
 #include "../include/pessoa.h"
 #include "../include/pet.h"
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/regex.h"
+#include "../include/myregex.h"
 
 void inicializar_fila(Fila_comando **fila) {
     *fila = (Fila_comando *)malloc(sizeof(Fila_comando));
@@ -291,7 +291,7 @@ void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa, Fila_coman
         aux = aux->proximo; // Avançar para o próximo comando na fila
     }
 }
-void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
+void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas, ListaDePet **pets) {
     Comando *aux = (*pessoa)->inicio;
     Pessoa *new_pessoa;
 
@@ -344,7 +344,7 @@ void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
                     telefone = atoi(fone);
                 }
 
-                new_pessoa = criaPessoa(cod, nome, telefone, dt, endereco, 0);
+                new_pessoa = criaPessoa(cod, nome, telefone, dt, endereco, 0, *pessoas);
                 *pessoas = insertIntoListaPessoas(pessoas, new_pessoa);
             } else {
                 printf("Erro ao processar comando: %s\n", aux->descrição);
@@ -355,14 +355,14 @@ void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
     sscanf(aux->descrição, "deletar_pessoa(%99[^,], %99s)", campo, valor) == 2){
                 if (strcmp(campo, "codigo")==0) {
                     int valor_int = atoi(valor);
-                    *pessoas = deletePessoa(pessoas, CODIGO, &valor_int);
+                    *pessoas = deletePessoa(pessoas, CODIGO, &valor_int, *pets);
                 }if (strcmp(campo, "nome")==0) {
-                    *pessoas = deletePessoa(pessoas, NOME, valor);
+                    *pessoas = deletePessoa(pessoas, NOME, valor, *pets);
                 }if (strcmp(campo, "data_nascimento")==0) {
-                    *pessoas = deletePessoa(pessoas, DATA, valor);
+                    *pessoas = deletePessoa(pessoas, DATA, valor, *pets);
                 }if (strcmp(campo, "telefone")==0) {
                     int fone_int = atoi(valor);
-                    *pessoas = deletePessoa(pessoas, TELEFONE, &fone_int);
+                    *pessoas = deletePessoa(pessoas, TELEFONE, &fone_int, *pets);
                 }
 
             }
@@ -370,7 +370,7 @@ void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
             char campo_sel[50]="", valor_sel[100] ="";
             if ( sscanf(aux->descrição, "selecionar_pessoa(%49[^,], %99[^,])", campo_sel, valor_sel) == 2) {
                 int valor_sel_int = atoi(valor_sel);
-                selectListaPessoas(pessoas, CODIGO, &valor_sel_int);
+                selectListaPessoas(pessoas, CODIGO, &valor_sel_int, 0, CODIGO);
             }
         }if (strstr(aux->descrição, "atualizar_pessoa") == aux->descrição) {
             char campo_up[100], codigo[255], valor[255], var[255];
@@ -381,22 +381,23 @@ void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
                 // Caso: Atualizar telefone
                 if (strcmp(campo_up, "telefone") == 0) {
                     int telefone = atoi(valor);
-                    Pessoa *dados_atualizados = criaPessoa(-1, "", telefone, "", "", 1);
+                    Pessoa *dados_atualizados = criaPessoa(-1, "", telefone, "", "", 1, *pessoas);
                     updatePessoas(pessoas, dados_atualizados, TELEFONE, &telefone);
 
                     // Caso: Atualizar nome
                 } else if (strcmp(campo_up, "'nome'") == 0) {
-                    Pessoa *dados_atualizados = criaPessoa(-1, valor, -1, "", "", 1);
+                    Pessoa *dados_atualizados = criaPessoa(-1, valor, -1, "", "", 1, *pessoas);
+                    //Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos, ListaDePessoas * listaDePessoas)
                     updatePessoas(pessoas, dados_atualizados, NOME, valor);
 
                     // Caso: Atualizar data de nascimento
                 } else if (strcmp(campo_up, "data_nascimento") == 0) {
-                    Pessoa *dados_atualizados = criaPessoa(-1, "", -1, valor, "", 1);
+                    Pessoa *dados_atualizados = criaPessoa(-1, "", -1, valor, "", 1, *pessoas);
                     updatePessoas(pessoas, dados_atualizados, DATA, valor);
 
                     // Caso: Atualizar endereço
                 } else if (strcmp(campo_up, "endereco") == 0) {
-                    Pessoa *dados_atualizados = criaPessoa(-1, "", -1, "", valor, 1);
+                    Pessoa *dados_atualizados = criaPessoa(-1, "", -1, "", valor, 1, *pessoas);
                     updatePessoas(pessoas, dados_atualizados, ENDERECO, valor);
                 }
             }
@@ -406,7 +407,7 @@ void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas) {
     }
 }
 
-void executar_cmd_pet(Fila_comando **pet, ListaDePet **pets) {
+void executar_cmd_pet(Fila_comando **pet, ListaDePet **pets, ListaDePessoas **pessoas, ListaDeTipoDePets **tipo_de_pets) {
 Comando *aux = (*pet)->inicio;
     Pet *new_pet;
     while (aux) {
@@ -414,7 +415,7 @@ Comando *aux = (*pet)->inicio;
             int codigo, codigo_cli, codigo_tipo;
             char nome[255];
             if (sscanf(aux->descrição, "inserir_pet(%d, %d, '%254[^']', %d)", &codigo, &codigo_cli, nome, &codigo_tipo)== 4) {
-                new_pet = criaPet(codigo, codigo_cli, nome, codigo_tipo, 0);
+                new_pet = criaPet(codigo, codigo_cli, nome, codigo_tipo, 0, *pets, *pessoas, *tipo_de_pets);
                 *pets = insertIntoListaDePet(pets, new_pet);
             }
         }if (strstr(aux->descrição, "deletar_pet")== aux->descrição) {
@@ -437,19 +438,20 @@ Comando *aux = (*pet)->inicio;
             char campo[100] = "", valor[100] = "";
             if (sscanf(aux->descrição, "selecionar_pet(%99[^,], '%99[^']')", campo, valor)==2 || sscanf(aux->descrição,  "selecionar_pet(%99[^,], %99s)", campo, valor)==2) {
                 if (strcmp(campo, "nome")==0) {
-                    selectListaDePet(pets, NOME_PET, valor);
+                    selectListaDePet(pets, NOME_PET, valor, 0,NOME_PET);
                 }if (strcmp(campo, "codigo")==0) {
                     int valor_int = atoi(valor);
-                    selectListaDePet(pets, CODIGO_PET, &valor_int);
+                    selectListaDePet(pets, CODIGO_PET, &valor_int, 0,NOME_PET);
                 }if (strcmp(campo, "codigo_pes")==0) {
                     int valor_int = atoi(valor);
-                    selectListaDePet(pets, CODIGO_PES_PET, &valor_int);
+                    selectListaDePet(pets, CODIGO_PES_PET, &valor_int, 0,NOME_PET);
                 }if (strcmp(campo, "codigo_tipo")==0) {
                     int valor_int = atoi(valor);
-                    selectListaDePet(pets, CODIGO_TIPO_PET, &valor_int);
+                    selectListaDePet(pets, CODIGO_TIPO_PET, &valor_int, 0,NOME_PET);
                 }
             }else if (sscanf(aux->descrição, "selecionar_pet_orderby(%99[^,];)", campo, valor)==2) {
-                //arvore binaria
+
+
 
             }
     }if (strstr(aux->descrição, "atualizar_pet") == aux->descrição) {
@@ -471,7 +473,7 @@ void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de
             int codigo = -1;
             char descricao[255] ="";
             if (sscanf(aux->descrição, "inserir_tipo_pet(%d, %254s)", &codigo, descricao)== 2) {
-                new_tipo_de_pet = criaTipoDePet(codigo, descricao);
+                new_tipo_de_pet = criaTipoDePet(codigo, descricao, 1, *tipos_de_pets);
                *tipos_de_pets = insertIntoTipoDePet(tipos_de_pets, new_tipo_de_pet);
 
             }
@@ -507,7 +509,11 @@ void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de
             if (sscanf(aux->descrição, "selecionar_tipo_pet_orderby(%99[^)])", campo) == 1) {
                 while (*campo == ' ') memmove(campo, campo + 1, strlen(campo)); // Remove espaços extras
 
-
+                if (strcmp(campo, "codigo") == 0) {
+                    selectListaTipoDePet(tipos_de_pets, CODIGO_TIPO_DE_PET, campo, 0, CODIGO_TIPO_DE_PET);
+                } else if (strcmp(campo, "nome") == 0) {
+                    selectListaTipoDePet(tipos_de_pets, NOME_TIPO_DE_PET, campo, 0, CODIGO_TIPO_DE_PET);
+                }
             }
         } else if (strstr(aux->descrição, "selecionar_tipo_pet") == aux->descrição) {
             char campo[100] = "", valor[100] = "";
@@ -517,9 +523,9 @@ void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de
 
                 if (strcmp(campo, "codigo") == 0) {
                     int valor_int = atoi(valor);
-                    selectListaTipoDePet(tipos_de_pets, CODIGO_TIPO_DE_PET, &valor_int);
+                    selectListaTipoDePet(tipos_de_pets, CODIGO_TIPO_DE_PET, &valor_int, 0, CODIGO_TIPO_DE_PET);
                 } else if (strcmp(campo, "nome") == 0) {
-                    selectListaTipoDePet(tipos_de_pets, NOME_TIPO_DE_PET, valor);
+                    selectListaTipoDePet(tipos_de_pets, NOME_TIPO_DE_PET, valor, 0, CODIGO_TIPO_DE_PET);
                 }
             }
 
