@@ -4,6 +4,7 @@
 
 #include "../include/menu.h"
 #include "../include/pet.h"
+#include "../include/pessoa.h"
 
 ListaDePet * criaListaDePet() {
     ListaDePet * listaDePet = (ListaDePet *) malloc(sizeof(typeof(ListaDePet)));
@@ -17,7 +18,7 @@ ListaDePet * criaListaDePet() {
     return listaDePet;
 }
 
-Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int restringirCampos) {
+Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int restringirCampos, ListaDePet * listaDePet, ListaDePessoas * listaDePessoa, ListaDeTipoDePets * listaDeTipoDePets) {
     Pet * novoPet = (Pet *) malloc(sizeof(typeof(Pet)));
     if(novoPet == NULL) {
         return NULL;
@@ -36,6 +37,30 @@ Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int rest
         if(codigo_tipo < 0) {
             return NULL;
         }
+    }
+
+    Pet * atualPet = listaDePet->cabeca;
+    while(atualPet != NULL) {
+        if(atualPet->codigo == codigo) {
+            return NULL;
+        }
+        atualPet = atualPet->prox;
+    }
+
+    TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
+    while(atualTipoDePet != NULL) {
+        if(atualTipoDePet->codigo == codigo_tipo) {
+            return NULL;
+        }
+        atualTipoDePet = atualTipoDePet->prox;
+    }
+
+    Pessoa * atualPessoa = listaDePessoa->cabeca;
+    while(atualPessoa != NULL) {
+        if(atualPessoa->codigo == codigo_pes) {
+            return NULL;
+        }
+        atualPessoa = atualPessoa->prox;
     }
 
     novoPet->codigo = codigo;
@@ -229,7 +254,7 @@ ListaDePet * deletePet(ListaDePet ** listaDePet, enum camposDePet campo, void * 
     return *listaDePet;
 }
 
-ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum camposDePet campo, void * valor){
+ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum camposDePet campo, void * valor, ListaDePessoas * listaDePessoa, ListaDeTipoDePets * listaDeTipoDePets){
     if((*listaDePet)->cabeca == NULL) {
         return NULL;
     }
@@ -238,6 +263,30 @@ ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum ca
 
     while (atual != NULL) {
         if (comparaPet(atual, campo, valor)) {
+            Pet * atualPet = (*listaDePet)->cabeca;
+            while(atualPet != NULL) {
+                if(atualPet->codigo == atual->codigo) {
+                    return NULL;
+                }
+                atualPet = atualPet->prox;
+            }
+
+            TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
+            while(atualTipoDePet != NULL) {
+                if(atualTipoDePet->codigo == atual->codigo_tipo) {
+                    return NULL;
+                }
+                atualTipoDePet = atualTipoDePet->prox;
+            }
+
+            Pessoa * atualPessoa = listaDePessoa->cabeca;
+            while(atualPessoa != NULL) {
+                if(atualPessoa->codigo == atual->codigo_pes) {
+                    return NULL;
+                }
+                atualPessoa = atualPessoa->prox;
+            }
+
             if (camposAtualizados->codigo != -1) {
                 atual->codigo = camposAtualizados->codigo;
             }

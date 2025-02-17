@@ -18,7 +18,7 @@ ListaDeTipoDePets * criaListaDeTiposDePet(){
     return listaDeTipoDePets;
 }
 
-TipoDePet * criaTipoDePet(int codigo, char * nome, int restringirCampos) {
+TipoDePet * criaTipoDePet(int codigo, char * nome, int restringirCampos, ListaDeTipoDePets * listaDeTipoDePets) {
     TipoDePet * novoTipoDePet = (TipoDePet *) malloc(sizeof(typeof(TipoDePet)));
     if(novoTipoDePet == NULL) {
         return NULL;
@@ -31,6 +31,14 @@ TipoDePet * criaTipoDePet(int codigo, char * nome, int restringirCampos) {
         if(strlen(nome) == 0) {
             return NULL;
         }
+    }
+
+    TipoDePet * atual = listaDeTipoDePets->cabeca;
+    while(atual != NULL) {
+        if(atual->codigo == codigo) {
+            return NULL;
+        }
+        atual = atual->prox;
     }
 
     novoTipoDePet->codigo = codigo;

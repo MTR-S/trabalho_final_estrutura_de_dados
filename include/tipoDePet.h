@@ -40,7 +40,7 @@ TipoDePetNaArvoreBin * orderByTipoDePet(ListaDeTipoDePets * listaDePet, enum cam
 void * inOrderTraversalArvoreTipoDePet(TipoDePetNaArvoreBin * raiz);
 
 ListaDeTipoDePets * criaListaDeTiposDePet();
-TipoDePet * criaTipoDePet(int codigo, char * nome, int restringirCampos);
+TipoDePet * criaTipoDePet(int codigo, char * nome, int restringirCampos, ListaDeTipoDePets * listaDeTipoDePets) ;
 
 void selectListaTipoDePet(ListaDeTipoDePets ** listaDeTipoDePet, enum camposDeTipoDePet campo, void * valor, int orderByPresente, enum camposDeTipoDePet campoOrderBy);
 ListaDeTipoDePets * insertIntoTipoDePet(ListaDeTipoDePets ** listaDeTipoDePet, TipoDePet * novoTipoDePet);

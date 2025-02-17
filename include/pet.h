@@ -2,8 +2,15 @@
 // Created by Casa on 15/02/2025.
 //
 
+
 #ifndef TRABALHO_FINAL_ESTRUTURA_DE_DADOS_PET_H
 #define TRABALHO_FINAL_ESTRUTURA_DE_DADOS_PET_H
+
+#include "pessoa.h"
+#include "tipoDePet.h"
+
+typedef struct listaDePessoas ListaDePessoas;
+
 typedef struct pet {
     int codigo;
     int codigo_pes;
@@ -40,11 +47,11 @@ PetNaArvoreBin * orderByPet(ListaDePet * listaDePet, enum camposDePet campoOrder
 void * inOrderTraversalArvorePet(PetNaArvoreBin * raiz);
 
 ListaDePet * criaListaDePet();
-Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int restringirCampos);
+Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int restringirCampos, ListaDePet * listaDePet, ListaDePessoas * listaDePessoa, ListaDeTipoDePets * listaDeTipoDePets);
 
 void selectListaDePet(ListaDePet ** listaDePet, enum camposDePet campo, void * valor, int orderByPresente, enum camposDePet campoOrderBy);
 ListaDePet * insertIntoListaDePet(ListaDePet ** listaDePet, Pet * novoPet);
 ListaDePet * deletePet(ListaDePet ** listaDePet, enum camposDePet campo, void * valor) ;
-ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum camposDePet campo, void * valor);
+ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum camposDePet campo, void * valor, ListaDePessoas * listaDePessoa, ListaDeTipoDePets * listaDeTipoDePets);
 
 #endif //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_PET_H

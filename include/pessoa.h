@@ -6,6 +6,7 @@
 #define TRABALHO_FINAL_ESTRUTURA_DE_DADOS_PESSOA_H
 
 #include <time.h>
+#include "pet.h"
 
 typedef struct pessoa {
     int codigo;
@@ -42,7 +43,7 @@ int maiorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa *
 int menorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa * proximoInserido);
 
 ListaDePessoas * criaListaDePessoas();
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos);
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos, ListaDePessoas * listaDePessoas);
 
 PessoaNaArvoreBin * insertNaArvoreDePessoas(PessoaNaArvoreBin * raiz, Pessoa * proximoInserido, enum camposDePessoa campoOrderBy);
 PessoaNaArvoreBin * orderByPessoa(ListaDePessoas * listaDePessoas, enum camposDePessoa campoOrderBy);
@@ -50,7 +51,7 @@ void * inOrderTraversalArvorePessoa(PessoaNaArvoreBin * raiz);
 
 void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor, int orderByPresente, enum camposDePessoa campoOrderBy);
 ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa * novaPessoa);
-ListaDePessoas * deletePessoa(ListaDePessoas ** listaDePessoas, enum camposDePessoa campo, void * valor) ;
+ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor, ListaDePet * listaDePet)  ;
 ListaDePessoas * updatePessoas(ListaDePessoas **listaDePessoas, Pessoa * camposAtualizados, enum camposDePessoa campo, void * valor);
 
 #endif //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_PESSOA_H

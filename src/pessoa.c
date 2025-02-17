@@ -18,7 +18,7 @@ ListaDePessoas * criaListaDePessoas() {
     return listaDePessoas;
 }
 
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos) {
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos, ListaDePessoas * listaDePessoas) {
     Pessoa * novaPessoa = (Pessoa *) malloc(sizeof(typeof(Pessoa)));
     if(novaPessoa == NULL) {
         return NULL;
@@ -34,6 +34,14 @@ Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * e
         if(strlen(data) == 0) {
             return NULL;
         }
+    }
+
+    Pessoa * atual = listaDePessoas->cabeca;
+    while(atual != NULL) {
+        if(atual->codigo == codigo) {
+            return NULL;
+        }
+        atual = atual->prox;
     }
 
     novaPessoa->codigo = codigo;
@@ -231,7 +239,7 @@ ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa
     return *listaDePessoas;
 }
 
-ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
+ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor, ListaDePet * listaDePet) {
     if ((*listaDePessoas)->cabeca == NULL) {
         return NULL;
     }
@@ -240,6 +248,14 @@ ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePesso
 
     while (atual != NULL) {
         if (comparaPessoa(atual, campo, valor)) {
+            Pet * verificaCasoPessoaTenhaPet = listaDePet->cabeca;
+            while(verificaCasoPessoaTenhaPet != NULL) {
+                if(verificaCasoPessoaTenhaPet->codigo_pes == atual->codigo) {
+                    return NULL;
+                }
+                verificaCasoPessoaTenhaPet = verificaCasoPessoaTenhaPet->prox;
+            }
+
             if (atual->ant == NULL) {
                 (*listaDePessoas)->cabeca = atual->prox;
                 if (atual->prox != NULL) {
