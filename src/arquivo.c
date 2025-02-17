@@ -73,7 +73,6 @@ void * extrairDoArquivoPessoa(const char *caminhoDoArquivo) {
             free(novaPessoa);
             break;
         }
-
         fread(novaPessoa->nome, sizeof(char), 50, arquivoAberto);
         fread(&novaPessoa->telefone, sizeof(int), 1, arquivoAberto);
         fread(novaPessoa->dataFormatada, sizeof(char), 11, arquivoAberto);
@@ -122,7 +121,6 @@ void * extrairDoArquivoPet(const char *caminhoDoArquivo) {
     if(arquivoAberto == NULL) {
         return NULL;
     }
-
     Pet *cabeca = NULL;
     Pet *atual = NULL;
 
@@ -190,7 +188,7 @@ void * extrairDoArquivoTipoDePet(const char *caminhoDoArquivo) {
             break;
         }
 
-        fread(novoTipoDePet->nome, sizeof(char), 50, arquivoAberto);
+        fread(&novoTipoDePet->codigo, sizeof(int), 1, arquivoAberto);
         fread(novoTipoDePet->nome, sizeof(char), 50, arquivoAberto);
 
         novoTipoDePet->prox = NULL;
