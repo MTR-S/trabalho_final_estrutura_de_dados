@@ -18,7 +18,7 @@ ListaDePessoas * criaListaDePessoas() {
     return listaDePessoas;
 }
 
-Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos) {
+Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * endereco, int restringirCampos, ListaDePessoas * listaDePessoas) {
     Pessoa * novaPessoa = (Pessoa *) malloc(sizeof(typeof(Pessoa)));
     if(novaPessoa == NULL) {
         return NULL;
@@ -34,6 +34,14 @@ Pessoa * criaPessoa(int codigo, char * nome, int telefone, char * data, char * e
         if(strlen(data) == 0) {
             return NULL;
         }
+    }
+
+    Pessoa * atual = listaDePessoas->cabeca;
+    while(atual != NULL) {
+        if(atual->codigo == codigo) {
+            return NULL;
+        }
+        atual = atual->prox;
     }
 
     novaPessoa->codigo = codigo;
@@ -69,12 +77,138 @@ int comparaPessoa(Pessoa *atual, enum camposDePessoa campo, void *valor) {
             return 0;
     }
 }
-void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
+
+int maiorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa * proximoInserido) {
+    switch (campo) {
+        case CODIGO:
+            return proximoInserido->codigo > raiz->pessoaNaLista->codigo;
+
+        case NOME:
+            return (strcmp(proximoInserido->nome, raiz->pessoaNaLista->nome) > 0);
+
+        case TELEFONE:
+            return proximoInserido->telefone > raiz->pessoaNaLista->telefone;
+
+        case DATA: {
+            int dia, mes, ano;
+            sscanf(proximoInserido->dataFormatada, "%d/%d/%d", &dia, &mes, &ano); // Extrai dia, mês e ano
+            int dataProximoInserido = (ano * 10000) + (mes * 100) + dia;
+
+            sscanf(raiz->pessoaNaLista->dataFormatada, "%d/%d/%d", &dia, &mes, &ano);
+            int dataRaiz = (ano * 10000) + (mes * 100) + dia;
+            return dataProximoInserido > dataRaiz;
+        }
+
+        case ENDERECO:
+            return (strcmp(proximoInserido->endereco, raiz->pessoaNaLista->endereco) > 0);
+
+        default:
+            return 0;
+    }
+}
+
+int menorQuePessoa(PessoaNaArvoreBin * raiz, enum camposDePessoa campo, Pessoa * proximoInserido) {
+    switch (campo) {
+        case CODIGO:
+            return proximoInserido->codigo < raiz->pessoaNaLista->codigo;
+
+        case NOME:
+            return (strcmp(proximoInserido->nome, raiz->pessoaNaLista->nome) < 0);
+
+        case TELEFONE:
+            return proximoInserido->telefone < raiz->pessoaNaLista->telefone;
+
+        case DATA: {
+            int dia, mes, ano;
+            sscanf(proximoInserido->dataFormatada, "%d/%d/%d", &dia, &mes, &ano); // Extrai dia, mês e ano
+            int dataProximoInserido = (ano * 10000) + (mes * 100) + dia;
+
+            sscanf(raiz->pessoaNaLista->dataFormatada, "%d/%d/%d", &dia, &mes, &ano);
+            int dataRaiz = (ano * 10000) + (mes * 100) + dia;
+            return dataProximoInserido < dataRaiz;
+        }
+
+        case ENDERECO:
+            return (strcmp(proximoInserido->endereco, raiz->pessoaNaLista->endereco) < 0);
+
+        default:
+            return 0;
+    }
+}
+
+PessoaNaArvoreBin * insertNaArvoreDePessoas(PessoaNaArvoreBin * raiz, Pessoa * proximoInserido, enum camposDePessoa campoOrderBy) {
+    if(raiz == NULL) {
+        PessoaNaArvoreBin * novaPessoaInseridaNaArvore = (PessoaNaArvoreBin *) malloc(sizeof(typeof(PessoaNaArvoreBin)));
+        if(novaPessoaInseridaNaArvore == NULL) {
+            return NULL;
+        }
+
+        novaPessoaInseridaNaArvore->pessoaNaLista = proximoInserido;
+        novaPessoaInseridaNaArvore->direita = NULL;
+        novaPessoaInseridaNaArvore->esquerda = NULL;
+
+        return novaPessoaInseridaNaArvore;
+    }
+
+    if(menorQuePessoa(raiz, campoOrderBy, proximoInserido)) {
+        raiz->esquerda = insertNaArvoreDePessoas(raiz->esquerda, proximoInserido, campoOrderBy);
+    }
+
+    if(maiorQuePessoa(raiz, campoOrderBy, proximoInserido)) {
+        raiz->direita = insertNaArvoreDePessoas(raiz->direita, proximoInserido, campoOrderBy);
+    }
+
+    return raiz;
+}
+
+PessoaNaArvoreBin * orderByPessoa(ListaDePessoas * listaDePessoas, enum camposDePessoa campoOrderBy) {
+    PessoaNaArvoreBin * raiz = (PessoaNaArvoreBin *) malloc(sizeof(typeof(PessoaNaArvoreBin)));
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    raiz->pessoaNaLista = listaDePessoas->cabeca;
+    raiz->direita = NULL;
+    raiz->esquerda = NULL;
+
+    Pessoa * atual = listaDePessoas->cabeca;
+
+    while(atual != NULL) {
+        raiz = insertNaArvoreDePessoas(raiz, atual, campoOrderBy);
+        atual = atual->prox;
+    }
+
+    return raiz;
+}
+
+void * inOrderTraversalArvorePessoa(PessoaNaArvoreBin * raiz) {
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    inOrderTraversalArvorePessoa(raiz->esquerda);
+
+    exibirPessoa(*(raiz->pessoaNaLista));
+
+    inOrderTraversalArvorePessoa(raiz->direita);
+
+    return raiz;
+}
+
+
+void selectListaPessoas(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor, int orderByPresente, enum camposDePessoa campoOrderBy) {
     if ((*listaDePessoas)->cabeca == NULL) {
         return;
     }
 
     Pessoa * atual = (*listaDePessoas)->cabeca;
+
+    if(orderByPresente) {
+        PessoaNaArvoreBin * raiz = orderByPessoa(*listaDePessoas, campoOrderBy);
+        inOrderTraversalArvorePessoa(raiz);
+
+        return;
+    }
 
     while (atual != NULL) {
         if (comparaPessoa(atual, campo, valor)) {
@@ -105,7 +239,7 @@ ListaDePessoas * insertIntoListaPessoas(ListaDePessoas ** listaDePessoas, Pessoa
     return *listaDePessoas;
 }
 
-ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor) {
+ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePessoa campo, void *valor, ListaDePet * listaDePet) {
     if ((*listaDePessoas)->cabeca == NULL) {
         return NULL;
     }
@@ -114,6 +248,14 @@ ListaDePessoas *deletePessoa(ListaDePessoas **listaDePessoas, enum camposDePesso
 
     while (atual != NULL) {
         if (comparaPessoa(atual, campo, valor)) {
+            Pet * verificaCasoPessoaTenhaPet = listaDePet->cabeca;
+            while(verificaCasoPessoaTenhaPet != NULL) {
+                if(verificaCasoPessoaTenhaPet->codigo_pes == atual->codigo) {
+                    return NULL;
+                }
+                verificaCasoPessoaTenhaPet = verificaCasoPessoaTenhaPet->prox;
+            }
+
             if (atual->ant == NULL) {
                 (*listaDePessoas)->cabeca = atual->prox;
                 if (atual->prox != NULL) {
