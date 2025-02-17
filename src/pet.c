@@ -4,6 +4,7 @@
 
 #include "../include/menu.h"
 #include "../include/pet.h"
+#include "../include/pessoa.h"
 
 ListaDePet * criaListaDePet() {
     ListaDePet * listaDePet = (ListaDePet *) malloc(sizeof(typeof(ListaDePet)));
@@ -17,7 +18,7 @@ ListaDePet * criaListaDePet() {
     return listaDePet;
 }
 
-Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int restringirCampos) {
+Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int restringirCampos, ListaDePet * listaDePet, ListaDePessoas * listaDePessoa, ListaDeTipoDePets * listaDeTipoDePets) {
     Pet * novoPet = (Pet *) malloc(sizeof(typeof(Pet)));
     if(novoPet == NULL) {
         return NULL;
@@ -38,10 +39,34 @@ Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int rest
         }
     }
 
+    Pet * atualPet = listaDePet->cabeca;
+    while(atualPet != NULL) {
+        if(atualPet->codigo == codigo) {
+            return NULL;
+        }
+        atualPet = atualPet->prox;
+    }
+
+    TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
+    while(atualTipoDePet != NULL) {
+        if(atualTipoDePet->codigo == codigo_tipo) {
+            return NULL;
+        }
+        atualTipoDePet = atualTipoDePet->prox;
+    }
+
+    Pessoa * atualPessoa = listaDePessoa->cabeca;
+    while(atualPessoa != NULL) {
+        if(atualPessoa->codigo == codigo_pes) {
+            return NULL;
+        }
+        atualPessoa = atualPessoa->prox;
+    }
+
     novoPet->codigo = codigo;
     strcpy(novoPet->nome, nome);
-    novoPet->codigo_pes = codigo;
-    novoPet->codigo_tipo = codigo;
+    novoPet->codigo_pes = codigo_pes;
+    novoPet->codigo_tipo = codigo_tipo;
 
     novoPet->prox = NULL;
     novoPet->ant = NULL;
@@ -64,12 +89,108 @@ int comparaPet(Pet *atual, enum camposDePet campo, void *valor){
     }
 }
 
-void selectListaDePet(ListaDePet ** listaDePet, enum camposDePet campo, void * valor){
+int maiorQuePet(PetNaArvoreBin * raiz, enum camposDePet campo, Pet * proximoInserido) {
+    switch (campo) {
+        case CODIGO_PET:
+            return proximoInserido->codigo > raiz->petNaLista->codigo;
+
+        case CODIGO_PES_PET:
+            return proximoInserido->codigo_pes > raiz->petNaLista->codigo_pes;
+
+        case NOME_PET:
+            return (strcmp(proximoInserido->nome, raiz->petNaLista->nome) > 0);
+        default:
+            return proximoInserido->codigo_tipo > raiz->petNaLista->codigo_tipo;
+    }
+}
+
+int menorQuePet(PetNaArvoreBin * raiz, enum camposDePet campo, Pet * proximoInserido) {
+    switch (campo) {
+        case CODIGO_PET:
+            return proximoInserido->codigo < raiz->petNaLista->codigo;
+
+        case CODIGO_PES_PET:
+            return proximoInserido->codigo_pes < raiz->petNaLista->codigo_pes;
+
+        case NOME_PET:
+            return (strcmp(proximoInserido->nome, raiz->petNaLista->nome) < 0);
+        default:
+            return proximoInserido->codigo_tipo < raiz->petNaLista->codigo_tipo;
+    }
+}
+
+PetNaArvoreBin * insertNaArvoreDePet(PetNaArvoreBin * raiz, Pet * proximoInserido, enum camposDePet campoOrderBy) {
+    if(raiz == NULL) {
+        PetNaArvoreBin * novaPessoaInseridaNaArvore = (PessoaNaArvoreBin *) malloc(sizeof(typeof(PessoaNaArvoreBin)));
+        if(novaPessoaInseridaNaArvore == NULL) {
+            return NULL;
+        }
+
+        novaPessoaInseridaNaArvore->petNaLista = proximoInserido;
+        novaPessoaInseridaNaArvore->direita = NULL;
+        novaPessoaInseridaNaArvore->esquerda = NULL;
+
+        return novaPessoaInseridaNaArvore;
+    }
+
+    if(menorQuePet(raiz, campoOrderBy, proximoInserido)) {
+        raiz->esquerda = insertNaArvoreDePet(raiz->esquerda, proximoInserido, campoOrderBy);
+    }
+
+    if(maiorQuePet(raiz, campoOrderBy, proximoInserido)) {
+        raiz->direita = insertNaArvoreDePet(raiz->direita, proximoInserido, campoOrderBy);
+    }
+
+    return raiz;
+}
+
+PetNaArvoreBin * orderByPet(ListaDePet * listaDePet, enum camposDePet campoOrderBy){
+    PetNaArvoreBin * raiz = (PetNaArvoreBin *) malloc(sizeof(typeof(PetNaArvoreBin)));
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    raiz->petNaLista = listaDePet->cabeca;
+    raiz->direita = NULL;
+    raiz->esquerda = NULL;
+
+    Pet * atual = listaDePet->cabeca;
+
+    while(atual != NULL) {
+        raiz = insertNaArvoreDePet(raiz, atual, campoOrderBy);
+        atual = atual->prox;
+    }
+
+    return raiz;
+}
+
+void * inOrderTraversalArvorePet(PetNaArvoreBin * raiz) {
+    if(raiz == NULL) {
+        return NULL;
+    }
+
+    inOrderTraversalArvorePet(raiz->esquerda);
+
+    exibirPet(*(raiz->petNaLista));
+
+    inOrderTraversalArvorePet(raiz->direita);
+
+    return raiz;
+}
+
+void selectListaDePet(ListaDePet ** listaDePet, enum camposDePet campo, void * valor, int orderByPresente, enum camposDePet campoOrderBy){
     if ((*listaDePet)->cabeca == NULL) {
         return;
     }
 
     Pet * atual = (*listaDePet)->cabeca;
+
+    if(orderByPresente) {
+        PetNaArvoreBin * raiz = orderByPet(*listaDePet, campoOrderBy);
+        inOrderTraversalArvorePet(raiz);
+
+        return;
+    }
 
     while (atual != NULL) {
         if (comparaPet(atual, campo, valor)) {
@@ -133,7 +254,7 @@ ListaDePet * deletePet(ListaDePet ** listaDePet, enum camposDePet campo, void * 
     return *listaDePet;
 }
 
-ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum camposDePet campo, void * valor){
+ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum camposDePet campo, void * valor, ListaDePessoas * listaDePessoa, ListaDeTipoDePets * listaDeTipoDePets){
     if((*listaDePet)->cabeca == NULL) {
         return NULL;
     }
@@ -142,6 +263,30 @@ ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum ca
 
     while (atual != NULL) {
         if (comparaPet(atual, campo, valor)) {
+            Pet * atualPet = (*listaDePet)->cabeca;
+            while(atualPet != NULL) {
+                if(atualPet->codigo == atual->codigo) {
+                    return NULL;
+                }
+                atualPet = atualPet->prox;
+            }
+
+            TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
+            while(atualTipoDePet != NULL) {
+                if(atualTipoDePet->codigo == atual->codigo_tipo) {
+                    return NULL;
+                }
+                atualTipoDePet = atualTipoDePet->prox;
+            }
+
+            Pessoa * atualPessoa = listaDePessoa->cabeca;
+            while(atualPessoa != NULL) {
+                if(atualPessoa->codigo == atual->codigo_pes) {
+                    return NULL;
+                }
+                atualPessoa = atualPessoa->prox;
+            }
+
             if (camposAtualizados->codigo != -1) {
                 atual->codigo = camposAtualizados->codigo;
             }
