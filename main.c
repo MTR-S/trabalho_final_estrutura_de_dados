@@ -73,6 +73,8 @@ int main() {
     inicializar_fila(&fila_tipo_pet);
 
     ListaDePessoas *pessoas = criaListaDePessoas();
+    ListaDePet *pets  = criaListaDePet();
+    ListaDeTipoDePets *tipos_de_pets = criaListaDeTiposDePet();
 
 
     const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
@@ -80,6 +82,8 @@ int main() {
  //   imprimir_fila(fila);
     criar_fila_tipos(fila, &fila_pessoa,  &fila_pet, &fila_tipo_pet);
     executar_cmd_pessoa(&fila_pessoa, &pessoas);
+    executar_cmd_pet(&fila_pet, &pets);
+    executar_cmd_tipo_pet(&fila_tipo_pet, &tipos_de_pets);
     printf("\n---------------------------------------------------------\n");
     imprimir_fila(fila_pet);
     printf("\n---------------------------------------------------------\n");

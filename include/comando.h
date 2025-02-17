@@ -5,6 +5,11 @@
 #ifndef TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
 #define TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
 #include "../include/pessoa.h"
+#include "../include/pet.h"
+#include "../include/tipoDePet.h"
+
+
+
 
 
 typedef struct Comandos {
@@ -27,5 +32,7 @@ void extrair_arg_insert();
 void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa,Fila_comando **fila_pet,Fila_comando **fila_tipo_pet);
 void inserir_comandoC(Fila_comando **fila, const char *descricao);
 void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas);
+void executar_cmd_pet(Fila_comando **pet, ListaDePet **pets) ;
+void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de_pets);
 #endif
 //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
