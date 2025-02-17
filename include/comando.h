@@ -31,7 +31,7 @@ void destruir_fila(Fila_comando *fila);
 void extrair_arg_insert();
 void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa,Fila_comando **fila_pet,Fila_comando **fila_tipo_pet);
 void inserir_comandoC(Fila_comando **fila, const char *descricao);
-void executar_cmd_pet(Fila_comando **pet, ListaDePet **pets, ListaDePessoas **pessoas, ListaDeTipoDePets **tipo_de_pets)
+void executar_cmd_pet(Fila_comando **pet, ListaDePet **pets, ListaDePessoas **pessoas, ListaDeTipoDePets **tipo_de_pets);
 void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de_pets);
 void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas, ListaDePet **pets);
 #endif

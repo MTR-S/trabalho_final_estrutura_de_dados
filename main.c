@@ -10,7 +10,8 @@
 
 
 int main() {
-
+/*
+ * Flow do Programa:
     Fila_comando *fila = NULL;
     inicializar_fila(&fila);
     Fila_comando *fila_pet = NULL;
@@ -49,12 +50,15 @@ int main() {
     executar_cmd_pessoa(&fila_pessoa, &pessoas, &pets);
     //void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas, ListaDePet **pets)
     executar_cmd_tipo_pet(&fila_tipo_pet, &tipos_de_pets);
-    executar_cmd_pet(&fila_pet, &pets);
+    executar_cmd_pet(&fila_pet, &pets, &pessoas, &tipos_de_pets);
 
     destruir_fila(fila);
     inserirNoArquivoPessoa(pessoas->cabeca, "data/dados_pessoa.bin");
     inserirNoArquivoTipoDePet(tipos_de_pets->cabeca, "data/dados_tipoDePet.bin");
     inserirNoArquivoPet(pets->cabeca, "data/dados_pet.bin");
+*/
+
+
 
     return 0;
 }
