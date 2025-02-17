@@ -47,31 +47,34 @@ Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int rest
         atualPet = atualPet->prox;
     }
 
-    int validaTipoDePet = 0;
-    int validaPessoa = 0;
+    if(restringirCampos) {
+        int validaTipoDePet = 0;
+        int validaPessoa = 0;
 
-    TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
-    while(atualTipoDePet != NULL) {
-        if(atualTipoDePet->codigo == codigo_tipo) {
-            validaTipoDePet = 1;
+        TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
+        while(atualTipoDePet != NULL) {
+            if(atualTipoDePet->codigo == codigo_tipo) {
+                validaTipoDePet = 1;
+            }
+            atualTipoDePet = atualTipoDePet->prox;
         }
-        atualTipoDePet = atualTipoDePet->prox;
-    }
 
-    if(!validaTipoDePet) {
-        return NULL;
-    }
-
-    Pessoa * atualPessoa = listaDePessoa->cabeca;
-    while(atualPessoa != NULL) {
-        if(atualPessoa->codigo == codigo_pes) {
-            validaPessoa = 1;
+        if(!validaTipoDePet) {
+            return NULL;
         }
-        atualPessoa = atualPessoa->prox;
-    }
 
-    if(!validaPessoa) {
-        return NULL;
+        Pessoa * atualPessoa = listaDePessoa->cabeca;
+        while(atualPessoa != NULL) {
+            if(atualPessoa->codigo == codigo_pes) {
+                validaPessoa = 1;
+            }
+            atualPessoa = atualPessoa->prox;
+        }
+
+        if(!validaPessoa) {
+            return NULL;
+        }
+
     }
 
     novoPet->codigo = codigo;
@@ -274,28 +277,44 @@ ListaDePet * updatePet(ListaDePet **listaDePet, Pet * camposAtualizados, enum ca
 
     while (atual != NULL) {
         if (comparaPet(atual, campo, valor)) {
+            //verifica duplo codigo em pet
             Pet * atualPet = (*listaDePet)->cabeca;
+            int codigoDuplicadoEmPets = 0;
             while(atualPet != NULL) {
                 if(atualPet->codigo == atual->codigo) {
-                    return NULL;
+                    codigoDuplicadoEmPets++;
                 }
                 atualPet = atualPet->prox;
             }
+            if(codigoDuplicadoEmPets == 2) {
+                return NULL;
+            }
 
+            // verifica codigo invalido em tipo de pet
+            int codigoInvalidoEmTipoDePet = 1;
             TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
             while(atualTipoDePet != NULL) {
                 if(atualTipoDePet->codigo == atual->codigo_tipo) {
-                    return NULL;
+                    codigoInvalidoEmTipoDePet = 0;
                 }
                 atualTipoDePet = atualTipoDePet->prox;
             }
 
+            if(codigoInvalidoEmTipoDePet) {
+                return NULL;
+            }
+
+            // verifica codigo invalido em pessoa
+            int codigoInvalidoPesoa = 1;
             Pessoa * atualPessoa = listaDePessoa->cabeca;
             while(atualPessoa != NULL) {
                 if(atualPessoa->codigo == atual->codigo_pes) {
-                    return NULL;
+                    codigoInvalidoPesoa = 0;
                 }
                 atualPessoa = atualPessoa->prox;
+            }
+            if(codigoInvalidoPesoa) {
+                return NULL;
             }
 
             if (camposAtualizados->codigo != -1) {

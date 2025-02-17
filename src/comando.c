@@ -17,7 +17,7 @@
 #include <stdarg.h>
 
 #include "../include/myregex.h"
-
+/*
 void inicializar_fila(Fila_comando **fila) {
     *fila = (Fila_comando *)malloc(sizeof(Fila_comando));
     if (*fila == NULL) {
@@ -543,6 +543,6 @@ void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de
 
 
 
-
+*/
 #include <stdio.h>
 

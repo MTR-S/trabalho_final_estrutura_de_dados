@@ -3,11 +3,11 @@
 //
 
 #include "../include/myregex.h"
-#include <regex.h>
+//#include <regex.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-
+/*
 int validar_sintaxe(const char *comando, const char *expressao) {
     regex_t regex;
     int ret =0;
@@ -19,5 +19,5 @@ int validar_sintaxe(const char *comando, const char *expressao) {
     ret = regexec(&regex, comando, 0, NULL,0);
     regfree(&regex);
     return (ret == 0);
-}
+}*/
 

@@ -8,10 +8,6 @@
 #include "../include/pet.h"
 #include "../include/tipoDePet.h"
 
-
-
-
-
 typedef struct Comandos {
     char descrição [1000];
     struct Comandos *proximo;
@@ -36,3 +32,4 @@ void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de
 void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas, ListaDePet **pets);
 #endif
 //TRABALHO_FINAL_ESTRUTURA_DE_DADOS_COMANDO_H
+
