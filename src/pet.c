@@ -121,7 +121,7 @@ int menorQuePet(PetNaArvoreBin * raiz, enum camposDePet campo, Pet * proximoInse
 
 PetNaArvoreBin * insertNaArvoreDePet(PetNaArvoreBin * raiz, Pet * proximoInserido, enum camposDePet campoOrderBy) {
     if(raiz == NULL) {
-        PetNaArvoreBin * novaPessoaInseridaNaArvore = (PessoaNaArvoreBin *) malloc(sizeof(typeof(PessoaNaArvoreBin)));
+        PetNaArvoreBin * novaPessoaInseridaNaArvore = (PetNaArvoreBin *) malloc(sizeof(typeof(PetNaArvoreBin)));
         if(novaPessoaInseridaNaArvore == NULL) {
             return NULL;
         }
