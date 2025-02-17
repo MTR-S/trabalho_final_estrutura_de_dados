@@ -47,20 +47,31 @@ Pet * criaPet(int codigo, int codigo_pes, char * nome, int codigo_tipo, int rest
         atualPet = atualPet->prox;
     }
 
+    int validaTipoDePet = 0;
+    int validaPessoa = 0;
+
     TipoDePet * atualTipoDePet = listaDeTipoDePets->cabeca;
     while(atualTipoDePet != NULL) {
         if(atualTipoDePet->codigo == codigo_tipo) {
-            return NULL;
+            validaTipoDePet = 1;
         }
         atualTipoDePet = atualTipoDePet->prox;
+    }
+
+    if(!validaTipoDePet) {
+        return NULL;
     }
 
     Pessoa * atualPessoa = listaDePessoa->cabeca;
     while(atualPessoa != NULL) {
         if(atualPessoa->codigo == codigo_pes) {
-            return NULL;
+            validaPessoa = 1;
         }
         atualPessoa = atualPessoa->prox;
+    }
+
+    if(!validaPessoa) {
+        return NULL;
     }
 
     novoPet->codigo = codigo;
