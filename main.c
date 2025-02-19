@@ -76,6 +76,14 @@ int main() {
     Pessoa * novaPessoa5 = criaPessoa(11, "carlos", 527912055, "22/01/1998", "rua dr ratisbona", 1, listaDeNovasPessoas);
     insertIntoListaPessoas(&listaDeNovasPessoas, novaPessoa5);
 
+    // ARQUIVO - Testando Inserir e Extrair do Arquivo Pessoa
+    inserirNoArquivoPessoa(listaDeNovasPessoas->cabeca, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\t2\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
+    ListaDePessoas * pessoasExtraidasDoArquivo = criaListaDePessoas();
+    pessoasExtraidasDoArquivo->cabeca = extrairDoArquivoPessoa("C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\t2\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
+    printf("ANTES DE EXTRAIR PESSOA\n");
+    selectListaPessoas(&pessoasExtraidasDoArquivo, ENDERECO, "endereco", 1, NOME);
+    printf("DEPOIS DE EXTRAIR PESSOA\n");
+
     // 2) Tipo de Pet:
     TipoDePet * novoTipoDePet = criaTipoDePet(65, "cachorro", 1, listaDeNovosTiposDePet);
     insertIntoTipoDePet(&listaDeNovosTiposDePet, novoTipoDePet);
@@ -88,6 +96,14 @@ int main() {
     TipoDePet * novoTipoDePe5 = criaTipoDePet(105, "ema", 1, listaDeNovosTiposDePet);
     insertIntoTipoDePet(&listaDeNovosTiposDePet, novoTipoDePe5);
 
+    // ARQUIVO -Testando Inserir e Extrair do Arquivo Tipo de Pet
+    inserirNoArquivoTipoDePet(listaDeNovosTiposDePet->cabeca, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\t2\\trabalho_final_estrutura_de_dados\\data\\dados_tipoDePet.bin");
+    ListaDeTipoDePets * tiposDePetsExtraidosDoArquivo = criaListaDeTiposDePet();
+    tiposDePetsExtraidosDoArquivo->cabeca = extrairDoArquivoTipoDePet("C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\t2\\trabalho_final_estrutura_de_dados\\data\\dados_tipoDePet.bin");
+    printf("ANTES DE EXTRAIR TIPO DE PET\n");
+    selectListaTipoDePet(&tiposDePetsExtraidosDoArquivo, CODIGO_TIPO_DE_PET, "&codigo", 1, CODIGO_TIPO_DE_PET);
+    printf("DEPOIS DE EXTRAIR TIPO DE PET\n");
+
     // 3) Pet:
     Pet * novoPet = criaPet(41, 7, "bilu", 65, 1, listaDeNovosPets, listaDeNovasPessoas, listaDeNovosTiposDePet);
     insertIntoListaDePet(&listaDeNovosPets, novoPet);
@@ -97,6 +113,14 @@ int main() {
     insertIntoListaDePet(&listaDeNovosPets, novoPet3);
     Pet * novoPet4 = criaPet(2, 11, "lola", 35, 1, listaDeNovosPets, listaDeNovasPessoas, listaDeNovosTiposDePet);
     insertIntoListaDePet(&listaDeNovosPets, novoPet4);
+
+    // ARQUIVO - Testanto Inserir e Extrair do Arquivo Pet
+    inserirNoArquivoPet(listaDeNovosPets->cabeca, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\t2\\trabalho_final_estrutura_de_dados\\data\\dados_pet.bin");
+    ListaDePet * petsExtraidosDoArquivo = criaListaDePet();
+    petsExtraidosDoArquivo->cabeca = extrairDoArquivoPet("C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\t2\\trabalho_final_estrutura_de_dados\\data\\dados_pet.bin");
+    printf("ANTES DE EXTRAIR PET\n");
+    selectListaDePet(&petsExtraidosDoArquivo, CODIGO_PET, "&codigo_pes", 1, CODIGO_PES_PET);
+    printf("DEPOIS DE EXTRAIR PET\n");
 
     //--> Select Listas:
     // 1) Pessoas:
@@ -166,25 +190,7 @@ int main() {
     int codigo_pes_deletado = 6;
     deletePet(&listaDeNovosPets, CODIGO_PES_PET, &codigo_pes_deletado);
     selectListaDePet(&listaDeNovosPets, CODIGO_PES_PET, &codigo_pet_pes, 1, NOME_PET);
-
-
-    /*
-    char * a = "rua dr ratisbona"; int codigo = 5;
-
-    printf("--> Antes de excluir:\n");
-    selectListaPessoas(&listaDeNovasPessoas, ENDERECO, a, 0, CODIGO);
-
-    inserirNoArquivo(listaDeNovasPessoas->cabeca, sizeof(Pessoa), listaDeNovasPessoas->quantidade, "C:\\Users\\Casa\\IFCE-EngenhariaComputacao-S3\\trabalho_final_estrutura_de_dados\\data\\dados_pessoa.bin");
-
-    printf("--> Depois de excluir:\n");
-    deletePessoa(&listaDeNovasPessoas, CODIGO, &codigo, );
-    Pessoa *camposAtualizados = criaPessoa(-1, "matheus de sousa", 997912055, "", "", 0, listaDeNovasPessoas);
-    int valor = 1;
-    updatePessoas(&listaDeNovasPessoas, camposAtualizados, CODIGO, &valor);
-    selectListaPessoas(&listaDeNovasPessoas, ENDERECO, a, 0, CODIGO);
-    printf("Agora utilizando o OrderBy:\n");
-    selectListaPessoas(&listaDeNovasPessoas, ENDERECO, a, 1, DATA);
     //--------- ESTRUTURAS DE DADOS FUNCIONAIS ------------
-    */
+
     return 0;
 }
