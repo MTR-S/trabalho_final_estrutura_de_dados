@@ -131,7 +131,6 @@ void * extrairDoArquivoPet(const char *caminhoDoArquivo) {
             break;
         }
 
-        fread(novoPet->nome, sizeof(char), 50, arquivoAberto);
         fread(&novoPet->codigo_pes, sizeof(int), 1, arquivoAberto);
         fread(novoPet->nome, sizeof(char), 50, arquivoAberto);
         fread(&novoPet->codigo_tipo, sizeof(int), 1, arquivoAberto);
@@ -188,7 +187,6 @@ void * extrairDoArquivoTipoDePet(const char *caminhoDoArquivo) {
             break;
         }
 
-        fread(&novoTipoDePet->codigo, sizeof(int), 1, arquivoAberto);
         fread(novoTipoDePet->nome, sizeof(char), 50, arquivoAberto);
 
         novoTipoDePet->prox = NULL;
