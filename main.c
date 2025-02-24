@@ -10,7 +10,7 @@
 
 
 int main() {
-    /*
+
     //----------------- FLOW DO PROGRAMA ----------------
     Fila_comando *fila = NULL;
     inicializar_fila(&fila);
@@ -21,19 +21,19 @@ int main() {
     inicializar_fila(&fila_pessoa);
     inicializar_fila(&fila_tipo_pet);
     ListaDePessoas *pessoas = criaListaDePessoas();
-    pessoas->quantidade = extrairQuantidadeNoArquivo(pessoas->cabeca, sizeof(Pessoa), "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
-    pessoas->cabeca = extrairDoArquivoPessoa("/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
+    pessoas->quantidade = extrairQuantidadeNoArquivo(pessoas->cabeca, sizeof(Pessoa), "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
+    pessoas->cabeca = extrairDoArquivoPessoa("/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
 
     ListaDePet *pets  = criaListaDePet();
-    pets->quantidade = extrairQuantidadeNoArquivo(pets->cabeca, sizeof(Pet), "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
-    pets->cabeca = extrairDoArquivoPet("/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
+    pets->quantidade = extrairQuantidadeNoArquivo(pets->cabeca, sizeof(Pet), "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
+    pets->cabeca = extrairDoArquivoPet("/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
 
     ListaDeTipoDePets *tipos_de_pets = criaListaDeTiposDePet();
-    tipos_de_pets->quantidade = extrairQuantidadeNoArquivo(tipos_de_pets->cabeca, sizeof(TipoDePet), "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
-    tipos_de_pets->cabeca = extrairDoArquivoTipoDePet("/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
+    tipos_de_pets->quantidade = extrairQuantidadeNoArquivo(tipos_de_pets->cabeca, sizeof(TipoDePet), "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
+    tipos_de_pets->cabeca = extrairDoArquivoTipoDePet("/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
 
 
-    const char *arquivo = "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/comandos.txt";
+    const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
     carregar_comando_arquivo(&fila, arquivo);
     criar_fila_tipos(fila, &fila_pessoa,  &fila_pet, &fila_tipo_pet);
 
@@ -52,11 +52,12 @@ int main() {
     executar_cmd_pet(&fila_pet, &pets, &pessoas, &tipos_de_pets);
 
     destruir_fila(fila);
-    inserirNoArquivoPessoa(pessoas->cabeca, "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
-    inserirNoArquivoTipoDePet(tipos_de_pets->cabeca, "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
-    inserirNoArquivoPet(pets->cabeca, "/home/matheus/Projects/trabalho_final/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
+    inserirNoArquivoPessoa(pessoas->cabeca, "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
+    inserirNoArquivoTipoDePet(tipos_de_pets->cabeca, "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
+    inserirNoArquivoPet(pets->cabeca, "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
+    /*
     //----------------- FLOW DO PROGRAMA ----------------
-    */
+
 
     //--------- ESTRUTURAS DE DADOS FUNCIONAIS ------------
 
@@ -190,7 +191,7 @@ int main() {
     int codigo_pes_deletado = 6;
     deletePet(&listaDeNovosPets, CODIGO_PES_PET, &codigo_pes_deletado);
     selectListaDePet(&listaDeNovosPets, CODIGO_PES_PET, &codigo_pet_pes, 1, NOME_PET);
-    //--------- ESTRUTURAS DE DADOS FUNCIONAIS ------------
+    //--------- ESTRUTURAS DE DADOS FUNCIONAIS ------------*/
 
     return 0;
 }

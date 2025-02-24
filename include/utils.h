@@ -6,4 +6,7 @@
 #define UTILS_H
 char *minusculo();
 void normalizar_aspas(char *str);
+void trim(char *str);
+void remover_aspas(char *str);
+void remover_ponto_e_virgula(char *str);
 #endif //UTILS_H
