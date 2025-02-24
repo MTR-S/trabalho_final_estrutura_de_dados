@@ -21,19 +21,19 @@ int main() {
     inicializar_fila(&fila_pessoa);
     inicializar_fila(&fila_tipo_pet);
     ListaDePessoas *pessoas = criaListaDePessoas();
-    pessoas->quantidade = extrairQuantidadeNoArquivo(pessoas->cabeca, sizeof(Pessoa), "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
-    pessoas->cabeca = extrairDoArquivoPessoa("/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
+    pessoas->quantidade = extrairQuantidadeNoArquivo(pessoas->cabeca, sizeof(Pessoa), "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_pessoa.bin");
+    pessoas->cabeca = extrairDoArquivoPessoa("/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_pessoa.bin");
 
     ListaDePet *pets  = criaListaDePet();
-    pets->quantidade = extrairQuantidadeNoArquivo(pets->cabeca, sizeof(Pet), "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
-    pets->cabeca = extrairDoArquivoPet("/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
+    pets->quantidade = extrairQuantidadeNoArquivo(pets->cabeca, sizeof(Pet), "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_pet.bin");
+    pets->cabeca = extrairDoArquivoPet("/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_pet.bin");
 
     ListaDeTipoDePets *tipos_de_pets = criaListaDeTiposDePet();
-    tipos_de_pets->quantidade = extrairQuantidadeNoArquivo(tipos_de_pets->cabeca, sizeof(TipoDePet), "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
-    tipos_de_pets->cabeca = extrairDoArquivoTipoDePet("/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
+    tipos_de_pets->quantidade = extrairQuantidadeNoArquivo(tipos_de_pets->cabeca, sizeof(TipoDePet), "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_tipoDePet.bin");
+    tipos_de_pets->cabeca = extrairDoArquivoTipoDePet("/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_tipoDePet.bin");
 
 
-    const char *arquivo = "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/comandos.txt";
+    const char *arquivo = "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/comandos.txt";
     carregar_comando_arquivo(&fila, arquivo);
     criar_fila_tipos(fila, &fila_pessoa,  &fila_pet, &fila_tipo_pet);
 
@@ -55,9 +55,9 @@ int main() {
     executar_cmd_pet(&fila_pet, &pets, &pessoas, &tipos_de_pets);
 
     destruir_fila(fila);
-    inserirNoArquivoPessoa(pessoas->cabeca, "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pessoa.bin");
-    inserirNoArquivoTipoDePet(tipos_de_pets->cabeca, "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_tipoDePet.bin");
-    inserirNoArquivoPet(pets->cabeca, "/home/vinicius/CLionProjects/trabalho_final_estrutura_de_dados/data/dados_pet.bin");
+    inserirNoArquivoPessoa(pessoas->cabeca, "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_pessoa.bin");
+    inserirNoArquivoTipoDePet(tipos_de_pets->cabeca, "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_tipoDePet.bin");
+    inserirNoArquivoPet(pets->cabeca, "/home/vinicius/Downloads/trabalho_final_estrutura_de_dados-save/data/dados_pet.bin");
 
 
     return 0;
