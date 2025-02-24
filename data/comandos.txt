@@ -1,4 +1,9 @@
-update tipo_pet set nome = 'Cangal' where codigo = 2332 ;
-select * from tipo_pet order by codigo;
+insert into pet(codigo, codigo_cli, nome, codigo_tipo) values(99,929, ‘brother’, 44);
+insert into pet(codigo, codigo_cli, nome, codigo_tipo) values(352, 123, ‘baubu’, 44);
+
+
+
+
+select * from pet order by codigo;
 
 

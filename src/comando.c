@@ -181,6 +181,10 @@ void criar_fila_tipos(Fila_comando *fila, Fila_comando **fila_pessoa, Fila_coman
                             &codigo_pessoa, nome_pessoa, data_nascimento, &offset) == 3) {
                 snprintf(descricao, sizeof(descricao), "inserir_pessoa(%d, %s, %s)", codigo_pessoa, nome_pessoa, data_nascimento);
                             }
+            else if (sscanf(aux->descrição, "insert into pessoa(codigo, nome, endereco, data_nascimento) values(%d, %*['‘’]%254[^'‘’]%*['‘’], %*['‘’]%255[^'‘’]%*['‘’], %*['‘’]%10[^'‘’]%*['‘’]);%n",
+                            &codigo_pessoa, nome_pessoa, endereco, data_nascimento, &offset) == 4) {
+                snprintf(descricao, sizeof(descricao), "inserir_pessoa(%d, %s, %s, %s)", codigo_pessoa, nome_pessoa, endereco, data_nascimento);
+                            }
             // Se faltar código, nome ou data, a inserção falha
             else {
                 printf("Erro: Código, nome e data de nascimento são obrigatórios para INSERT INTO pessoa!\n");
@@ -513,7 +517,7 @@ Comando *aux = (*pet)->inicio;
             int codigo, codigo_cli, codigo_tipo;
             char nome[255];
             if (sscanf(aux->descrição, "inserir_pet(%d, %d, %254[^,], %d)", &codigo, &codigo_cli, nome, &codigo_tipo)== 4) {
-                new_pet = criaPet(codigo, codigo_cli, nome, codigo_tipo, 0, *pets, *pessoas, *tipo_de_pets);
+                new_pet = criaPet(codigo, codigo_cli, nome, codigo_tipo, 1, *pets, *pessoas, *tipo_de_pets);
                 *pets = insertIntoListaDePet(pets, new_pet);
             }
         }if (strstr(aux->descrição, "deletar_pet")== aux->descrição) {
