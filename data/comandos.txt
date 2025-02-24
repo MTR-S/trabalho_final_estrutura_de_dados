@@ -1,5 +1,4 @@
+update tipo_pet set nome = 'Cangal' where codigo = 2332 ;
+select * from tipo_pet order by codigo;
 
-select * from tipo_pet order by codigo;
-select * from tipo_pet order by codigo;
-select * from tipo_pet order by codigo;
 

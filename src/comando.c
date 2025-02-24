@@ -717,6 +717,63 @@ void executar_cmd_tipo_pet(Fila_comando **tipo_pet, ListaDeTipoDePets **tipos_de
             }
 
     }if (strstr(aux->descrição, "atualizar_tipo_pet") == aux->descrição) {
+        char copia[255];
+        strcpy(copia, aux->descrição);
+        char *inicio = strchr(copia, '(');
+        char *fim = strchr(copia, ')');
+
+        if (!inicio || !fim) {
+            printf("Erro: formato inválido!\n");
+            return;
+        }
+        *fim = '\0';
+        inicio++;
+        char *tokens[20];
+        int num_tokens = 0;
+        char *token = strtok(inicio, ",");
+
+        while (token) {
+            while (*token == ' ') token++;
+            tokens[num_tokens++] = token;
+            token = strtok(NULL, ",");
+        }
+        if (num_tokens < 2) {
+            printf("Erro: parâmetros insuficientes!\n");
+            return;
+        }
+        char campo_where[50], valor_where[50];
+        sscanf(tokens[num_tokens-2], "%49s", campo_where);
+        sscanf(tokens[num_tokens-1], "%49s", valor_where);
+
+        int codigo = -1;
+        char nome[100] = "";
+
+        for (int i = 0; i < num_tokens-2; ++i) {
+            char campo[50], valor[50];
+            sscanf(tokens[i], "%49[^=]=%49s", campo, valor);
+            trim(campo);
+            trim(valor);
+            remover_aspas(valor);
+            remover_ponto_e_virgula(valor);
+            remover_ponto_e_virgula(campo);
+            if (strcmp(campo, "codigo")==0) {
+                codigo = atoi(valor);
+            }else if (strcmp(campo, "nome")==0) {
+                strcpy(nome, valor);
+            }
+        }
+        TipoDePet *tipo_atualizado = criaTipoDePet(codigo, nome, 0, *tipos_de_pets);
+        void *valor_busca;
+
+        if (strcmp(campo_where, "codigo")==0) {
+            int valor_int = atoi(valor_where);
+            valor_busca = &valor_int;
+            *tipos_de_pets = updateTipoDePet(tipos_de_pets, tipo_atualizado, CODIGO_TIPO_DE_PET, valor_busca);
+        }else if (strcmp(campo_where, "nome")==0) {
+            valor_busca = valor_where;
+            *tipos_de_pets = updateTipoDePet(tipos_de_pets, tipo_atualizado, NOME_TIPO_DE_PET, valor_busca);
+        }
+
 
         }
 

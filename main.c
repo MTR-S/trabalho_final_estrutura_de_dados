@@ -47,7 +47,6 @@ int main() {
 
 
     executar_cmd_pessoa(&fila_pessoa, &pessoas, &pets);
-    //void executar_cmd_pessoa(Fila_comando **pessoa, ListaDePessoas **pessoas, ListaDePet **pets)
     executar_cmd_tipo_pet(&fila_tipo_pet, &tipos_de_pets);
     executar_cmd_pet(&fila_pet, &pets, &pessoas, &tipos_de_pets);
 
